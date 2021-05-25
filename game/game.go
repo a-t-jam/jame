@@ -20,7 +20,7 @@ var bg *ebiten.Image
 
 func Init() {
 	// byte data
-	imgByte, err := assets.Winddorf.ReadFile("winddorf/kyoto.jpg")
+	imgByte, err := assets.Data.ReadFile("winddorf/kyoto.jpg")
 	if err != nil {
 		log.Fatalln(err)
 	}

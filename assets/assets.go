@@ -7,5 +7,5 @@ import(
 )
 
 //go:embed winddorf
-var Winddorf embed.FS
+var Data embed.FS
 
