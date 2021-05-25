@@ -10,7 +10,7 @@ import(
 	_ "image/jpeg"
 
 	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
+        "github.com/hajimehoshi/ebiten/v2/ebitenutil"
 
 	"github.com/a-t-jam/jame/assets"
 )
@@ -61,7 +61,9 @@ func (g *Game) Update() error {
 
 func (g *Game) Draw(screen *ebiten.Image) {
 	ebitenutil.DebugPrint(screen, "Hello, World!")
-	screen.DrawImage(bg, &ebiten.DrawImageOptions{})
+        op := &ebiten.DrawImageOptions{}
+	op.GeoM.Translate((1280-790)/2, (720-480)/2)
+	screen.DrawImage(bg, op)
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
