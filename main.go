@@ -4,27 +4,15 @@ import (
 	"log"
 
 	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
+
+	"github.com/a-t-jam/jame/game"
 )
-
-type Game struct{}
-
-func (g *Game) Update() error {
-	return nil
-}
-
-func (g *Game) Draw(screen *ebiten.Image) {
-	ebitenutil.DebugPrint(screen, "Hello, World!")
-}
-
-func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
-	return 1280, 720
-}
 
 func main() {
 	ebiten.SetWindowSize(1280, 720)
 	ebiten.SetWindowTitle("Hello, World!")
-	if err := ebiten.RunGame(&Game{}); err != nil {
+	game := game.New()
+	if err := ebiten.RunGame(&game); err != nil {
 		log.Fatal(err)
 	}
 }
