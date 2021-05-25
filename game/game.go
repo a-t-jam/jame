@@ -2,48 +2,38 @@ package game
 
 import(
 	"bytes"
+	_ "embed"
 	"image"
-	_ "image/png"
-	_ "image/jpeg"
-	"io/ioutil"
 	"log"
 
-	"github.com/rakyll/statik/fs"
-	_ "github.com/a-t-jam/jame/statik"
+	_ "image/png"
+	_ "image/jpeg"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
+
+	"github.com/a-t-jam/jame/assets"
 )
 
 // bg is a temporary background image.
 var bg *ebiten.Image
 
 func Init() {
-	// load image byte data
-	statikFS, err := fs.New()
+	// byte data
+	imgByte, err := assets.Winddorf.ReadFile("winddorf/kyoto.jpg")
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalln(err)
 	}
 
-	imgFile, err := statikFS.Open("/winddorf/kyoto.jpg")
+	// std image
+	img, _, err := image.Decode(bytes.NewReader(imgByte))
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalln(err)
 	}
 
-	imgBytes, err := ioutil.ReadAll(imgFile)
-    if err != nil {
-        panic(err)
-    }
-
-	// create std (?) image
-	img, _, err := image.Decode(bytes.NewReader(imgBytes))
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// create ebiten image
-	ebitenImage := ebiten.NewImageFromImage(img)
-	bg = ebitenImage
+	// ebiten image
+	ebitenImg := ebiten.NewImageFromImage(img)
+	bg = ebitenImg
 }
 
 // GameState is the global game state
