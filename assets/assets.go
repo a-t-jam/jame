@@ -7,5 +7,5 @@ import(
 )
 
 //go:embed winddorf
+//go:embed sprites
 var Data embed.FS
-

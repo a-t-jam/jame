@@ -16,7 +16,35 @@ import(
 )
 
 // bg is a temporary background image.
-var bg *ebiten.Image
+var(
+    bg *ebiten.Image
+    playerSprite *ebiten.Image
+)
+
+// example structs
+type Pos struct {
+    X, Y int
+}
+
+type Entity struct {
+    Pos
+    Name string
+}
+
+type Item struct {
+    Entity
+}
+
+type Actor struct {
+    Entity
+    Strength int
+    Health int
+}
+
+type Player struct {
+    Actor
+    Inventory []*Item
+}
 
 func Init() {
 	// byte data
@@ -26,14 +54,27 @@ func Init() {
 	}
 
 	// std image
-	img, _, err := image.Decode(bytes.NewReader(imgByte))
+        img, _, err := image.Decode(bytes.NewReader(imgByte))
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	// ebiten image
-	ebitenImg := ebiten.NewImageFromImage(img)
+        ebitenImg := ebiten.NewImageFromImage(img)
 	bg = ebitenImg
+
+        // testing sprites
+	imgByte, err = assets.Data.ReadFile("sprites/amg1_rt2.png")
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	img, _, err = image.Decode(bytes.NewReader(imgByte))
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	ebitenImg = ebiten.NewImageFromImage(img)
+        playerSprite = ebitenImg
 }
 
 // GameState is the global game state
@@ -62,8 +103,14 @@ func (g *Game) Update() error {
 func (g *Game) Draw(screen *ebiten.Image) {
 	ebitenutil.DebugPrint(screen, "Hello, World!")
         op := &ebiten.DrawImageOptions{}
+        op1 := &ebiten.DrawImageOptions{}
 	op.GeoM.Translate((1280-790)/2, (720-480)/2)
 	screen.DrawImage(bg, op)
+
+        // sprite 
+        op1.GeoM.Translate(50, 100)
+        op1.GeoM.Scale(2, 2)
+	screen.DrawImage(playerSprite, op1)
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
