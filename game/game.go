@@ -1,81 +1,17 @@
 package game
 
 import(
-	"bytes"
 	_ "embed"
-	"image"
-	"log"
 
 	_ "image/png"
 	_ "image/jpeg"
 
 	"github.com/hajimehoshi/ebiten/v2"
-        "github.com/hajimehoshi/ebiten/v2/ebitenutil"
 
-	"github.com/a-t-jam/jame/assets"
+	"github.com/a-t-jam/jame/game/scene"
+	"github.com/a-t-jam/jame/game/travel"
+	"github.com/a-t-jam/jame/game/combat"
 )
-
-// bg is a temporary background image.
-var(
-    bg *ebiten.Image
-    playerSprite *ebiten.Image
-)
-
-// example structs
-type Pos struct {
-    X, Y int
-}
-
-type Entity struct {
-    Pos
-    Name string
-}
-
-type Item struct {
-    Entity
-}
-
-type Actor struct {
-    Entity
-    Strength int
-    Health int
-}
-
-type Player struct {
-    Actor
-    Inventory []*Item
-}
-
-func Init() {
-	// byte data
-	imgByte, err := assets.Data.ReadFile("winddorf/kyoto.jpg")
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	// std image
-        img, _, err := image.Decode(bytes.NewReader(imgByte))
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-        ebitenImg := ebiten.NewImageFromImage(img)
-	bg = ebitenImg
-
-        // testing sprites
-	imgByte, err = assets.Data.ReadFile("sprites/amg1_rt2.png")
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	img, _, err = image.Decode(bytes.NewReader(imgByte))
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	ebitenImg = ebiten.NewImageFromImage(img)
-        playerSprite = ebitenImg
-}
 
 // GameState is the global game state
 type GameState = int
@@ -87,33 +23,40 @@ const (
 )
 
 type Game struct{
-	state GameState
+	State GameState
+	Scene scene.Scene
 }
 
 func New() Game {
 	return Game {
-		state: TravelState,
-		}
+		State: TravelState,
+		Scene: scene.Scene {
+			Len: 10,
+			Pos: 0,
+			Inventory: nil,
+			Ducks: nil,
+		},
+	}
 }
 
 func (g *Game) Update() error {
-	return nil
+	if g.State == TravelState {
+		return travel.Update(&g.Scene);
+	} else if g.State == CombatState {
+		return combat.Update(&g.Scene);
+	}
+
+	return nil; // ?
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
-	ebitenutil.DebugPrint(screen, "Hello, World!")
-        op := &ebiten.DrawImageOptions{}
-        op1 := &ebiten.DrawImageOptions{}
-	op.GeoM.Translate((1280-790)/2, (720-480)/2)
-	screen.DrawImage(bg, op)
-
-        // sprite 
-        op1.GeoM.Translate(50, 100)
-        op1.GeoM.Scale(2, 2)
-	screen.DrawImage(playerSprite, op1)
+	if g.State == TravelState {
+		travel.Draw(&g.Scene, screen);
+	} else if g.State == CombatState {
+		combat.Draw(&g.Scene, screen);
+	}
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
 	return 1280, 720
 }
-
