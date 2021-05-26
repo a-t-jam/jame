@@ -50,11 +50,11 @@ func (g *Game) Update() error {
 		combat.Enter(&g.Scene)
 	}
 
-	//if g.State == TravelState {
-	//	return travel.Update(&g.Scene);
-	//} else if g.State == CombatState {
-	//	return combat.Update(&g.Scene);
-	//}
+	if g.State == TravelState {
+		return travel.Update(&g.Scene);
+	} else if g.State == CombatState {
+		return combat.Update(&g.Scene);
+	}
 	return dialog.Update(&g.Scene)
 
 	//return nil; // ?
@@ -66,6 +66,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	} else if g.State == CombatState {
 		combat.Draw(&g.Scene, screen)
 	}
+
 	dialog.Draw(&g.Scene, screen)
 }
 
