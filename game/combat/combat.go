@@ -1,23 +1,13 @@
 package combat
 
 import(
-	"fmt"
-
 	_ "image/png"
 	_ "image/jpeg"
 
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/a-t-jam/jame/assets"
 	"github.com/a-t-jam/jame/game/scene"
 )
-
-var(
-    bg *ebiten.Image
-)
-
-// FIXME: duplicate image loading
-func init() {
-	bg = scene.LoadImg("winddorf/kyoto.jpg")
-}
 
 type CombatState struct {
 	actors [10]scene.Combat
@@ -60,5 +50,5 @@ func Update(scene *scene.Scene) error {
 }
 
 func Draw(scene *scene.Scene, screen *ebiten.Image) {
-	//
+	assets.DrawBg(screen)
 }
