@@ -4,20 +4,47 @@ import (
 	"fmt"
 	_ "image/jpeg"
 	_ "image/png"
+	"log"
 
 	"github.com/a-t-jam/jame/assets"
 	"github.com/a-t-jam/jame/game/scene"
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
-type CombatState struct {
-	actors [10]scene.Combat
+var (
+	state State
+)
+
+type State struct {
+	// 0 ~ 2: ducks. 3 ~: ememies
+	actors [8]scene.Combat
 	cur    int
 }
 
-var (
-	state CombatState
+const (
+	Continue = iota
+	DucksDied
+	EnemiseDied
 )
+
+func (c *State) inc() {
+	c.cur += 1
+	c.cur %= len(state.actors)
+}
+
+func (state *State) status() int {
+	actors := &state.actors
+
+	if !actors[0].Alive && !actors[1].Alive && !actors[2].Alive {
+		return DucksDied
+	}
+
+	if !actors[3].Alive && !actors[4].Alive && !actors[5].Alive && !actors[6].Alive && !actors[7].Alive {
+		return EnemiseDied
+	}
+
+	return Continue
+}
 
 func takeTurn(actor *scene.Combat) Event {
 	return nil
@@ -25,23 +52,42 @@ func takeTurn(actor *scene.Combat) Event {
 
 // Enter initializes the combat scene
 func Enter(scene *scene.Scene) {
-	state = CombatState{}
+	state = State{}
 	// TODO: overwrite `state` with `scene.ducks`
 }
 
 func Update(scene *scene.Scene) error {
-	fmt.Println(state.cur)
-	actor := &state.actors[state.cur]
+	for {
+		switch state.status() {
+		case Continue:
+		case DucksDied:
+			fmt.Println("dead end")
+			return nil
+		case EnemiseDied:
+			fmt.Println("win")
+			return nil
+		default:
+			log.Fatal("wrong status")
+		}
 
-	action := takeTurn(actor)
+		actor := &state.actors[state.cur]
 
-	if action == nil {
-		state.cur += 1
-		state.cur %= len(state.actors)
+		if !actor.Alive {
+			state.inc()
+			continue
+		}
+
+		fmt.Println("Actor", state.cur, "takes turn")
+		action := takeTurn(actor)
+
+		if action == nil {
+			state.inc()
+			continue
+		}
+
+		// TODO: play animation
 		return nil
 	}
-
-	return nil
 }
 
 func Draw(scene *scene.Scene, screen *ebiten.Image) {

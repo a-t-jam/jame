@@ -1,6 +1,5 @@
 package scene
 
-// example structs
 type Item struct {
 	//
 }
@@ -10,7 +9,16 @@ type Actor struct {
 }
 
 type Combat struct {
-	//
+	Alive    bool
+	IsFriend bool
+	// energy to take turn
+	Energy     uint
+	EnergyGain uint
+	// states
+	MaxHp uint
+	Hp    uint
+	Atk   uint
+	Def   uint
 }
 
 type Scene struct {
