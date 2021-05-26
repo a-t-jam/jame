@@ -1,13 +1,13 @@
 package travel
 
-import(
+import (
 	"bytes"
 	_ "embed"
 	"image"
 	"log"
 
-	_ "image/png"
 	_ "image/jpeg"
+	_ "image/png"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
@@ -16,9 +16,9 @@ import(
 	"github.com/a-t-jam/jame/game/scene"
 )
 
-var(
-    bg *ebiten.Image
-    playerSprite *ebiten.Image
+var (
+	bg           *ebiten.Image
+	playerSprite *ebiten.Image
 )
 
 func init() {
@@ -53,7 +53,7 @@ func init() {
 }
 
 func Update(scene *scene.Scene) error {
-	return nil;
+	return nil
 }
 
 func Draw(scene *scene.Scene, screen *ebiten.Image) {

@@ -2,7 +2,7 @@ package scene
 
 // example structs
 type Item struct {
-    //
+	//
 }
 
 type Actor struct {
@@ -14,8 +14,8 @@ type Combat struct {
 }
 
 type Scene struct {
-	Len uint
-	Pos uint
+	Len       uint
+	Pos       uint
 	Inventory []*Item
-	Ducks []*Actor
+	Ducks     []*Actor
 }

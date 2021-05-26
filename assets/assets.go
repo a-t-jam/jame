@@ -1,9 +1,9 @@
 package assets
 
-import(
+import (
 	"embed"
-	_ "image/png"
 	_ "image/jpeg"
+	_ "image/png"
 )
 
 //go:embed winddorf

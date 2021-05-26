@@ -1,11 +1,11 @@
 package combat
 
-import(
-	_ "image/png"
+import (
 	_ "image/jpeg"
+	_ "image/png"
 
-	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/a-t-jam/jame/game/scene"
+	"github.com/hajimehoshi/ebiten/v2"
 )
 
 func Update(scene *scene.Scene) error {
@@ -15,4 +15,3 @@ func Update(scene *scene.Scene) error {
 func Draw(scene *scene.Scene, screen *ebiten.Image) {
 	//
 }
-

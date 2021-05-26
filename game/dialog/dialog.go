@@ -13,6 +13,8 @@ import (
 	"golang.org/x/image/font"
 	"golang.org/x/image/font/opentype"
 
+	//	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
+	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	"github.com/hajimehoshi/ebiten/v2/text"
 
 	"github.com/a-t-jam/jame/assets"
@@ -20,12 +22,22 @@ import (
 )
 
 var (
-	pixelFont font.Face
+	pixelFont       font.Face
+	dialogs         map[string][]string
+	selectedDialogs []string
+	displayDialog   string
+	i               int
 )
 
 func init() {
+	dialogs = make(map[string][]string)
+	dialogs["entry"] = []string{"Your head hurts, you open your eyes", "You look around and realize you're stuck in an Abyss"}
+	selectedDialogs = dialogs["entry"]
+	i = 0
+	displayDialog = selectedDialogs[i]
+
 	fontBytes, err := assets.Data.ReadFile("fonts/8bitOperatorPlus8-Regular.ttf")
-        tt, err := opentype.Parse(fontBytes)
+	tt, err := opentype.Parse(fontBytes)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -42,9 +54,13 @@ func init() {
 }
 
 func Update(scene *scene.Scene) error {
+	if inpututil.IsKeyJustReleased(ebiten.KeySpace) && i < len(selectedDialogs)-1 {
+		i = i + 1
+	}
+	displayDialog = selectedDialogs[i]
 	return nil
 }
 
 func Draw(scene *scene.Scene, screen *ebiten.Image) {
-	text.Draw(screen, "Hello", pixelFont, 40, 40, color.White)
+	text.Draw(screen, displayDialog, pixelFont, 40, 40, color.White)
 }
