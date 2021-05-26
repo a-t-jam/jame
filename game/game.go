@@ -41,6 +41,14 @@ func New() Game {
 }
 
 func (g *Game) Update() error {
+	if ebiten.IsKeyPressed(ebiten.Key1) {
+		g.State = TravelState
+	}
+
+	if ebiten.IsKeyPressed(ebiten.Key2) {
+		g.State = CombatState
+	}
+
 	if g.State == TravelState {
 		return travel.Update(&g.Scene);
 	} else if g.State == CombatState {
