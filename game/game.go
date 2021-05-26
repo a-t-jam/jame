@@ -11,6 +11,7 @@ import(
 	"github.com/a-t-jam/jame/game/scene"
 	"github.com/a-t-jam/jame/game/travel"
 	"github.com/a-t-jam/jame/game/combat"
+	"github.com/a-t-jam/jame/game/dialog"
 )
 
 // GameState is the global game state
@@ -45,6 +46,7 @@ func (g *Game) Update() error {
 	} else if g.State == CombatState {
 		return combat.Update(&g.Scene);
 	}
+        dialog.Update(&g.Scene);
 
 	return nil; // ?
 }
@@ -55,6 +57,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	} else if g.State == CombatState {
 		combat.Draw(&g.Scene, screen);
 	}
+        dialog.Draw(&g.Scene, screen);
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
