@@ -47,6 +47,7 @@ func (g *Game) Update() error {
 
 	if ebiten.IsKeyPressed(ebiten.Key2) {
 		g.State = CombatState
+		combat.Enter(&g.Scene)
 	}
 
 	//if g.State == TravelState {
