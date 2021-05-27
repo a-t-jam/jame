@@ -9,6 +9,7 @@ import (
 	"github.com/a-t-jam/jame/assets"
 	"github.com/a-t-jam/jame/game/dialog"
 	"github.com/a-t-jam/jame/game/scene"
+	"github.com/a-t-jam/jame/ui"
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
@@ -20,6 +21,7 @@ type State struct {
 	// 0: player,
 	// 1: enemy
 	actors   [2]scene.Combat
+	nodes    []ui.Node
 	cur      int
 	guiState StateStack
 	// running animation (play GUI of it!)
@@ -79,6 +81,25 @@ func Enter(scene *scene.Scene, enemy scene.Combat) {
 
 	state.actors[0] = scene.Player
 	state.actors[1] = enemy
+
+	// TODO: easier use?
+	state.nodes = append(state.nodes, ui.Node{
+		X:     1280.0 / 2.0,
+		Y:     720.0 - 200.0,
+		Align: ui.AlignCenter,
+		Surface: ui.Surface{
+			Img: state.actors[0].Img,
+		},
+	})
+
+	state.nodes = append(state.nodes, ui.Node{
+		X:     1280.0 / 2.0,
+		Y:     200.0,
+		Align: ui.AlignCenter,
+		Surface: ui.Surface{
+			Img: state.actors[1].Img,
+		},
+	})
 }
 
 func Update(scene *scene.Scene) error {
@@ -118,8 +139,10 @@ func takeTurn(actorIx int) Event {
 func Draw(scene *scene.Scene, screen *ebiten.Image) {
 	assets.DrawOcean1(screen)
 
-	drawCentered(screen, state.actors[0].Img, 1280.0/2.0, 720.0-200.0)
-	drawCentered(screen, state.actors[1].Img, 1280.0/2.0, 200.0)
+	for _, node := range state.nodes {
+		node.Draw(screen)
+	}
+
 	dialog.Draw(scene, screen)
 }
 

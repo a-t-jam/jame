@@ -3,8 +3,14 @@
 package ui
 
 import (
-	"github.com/a-t-jam/jame/assets"
 	"github.com/hajimehoshi/ebiten/v2"
+)
+
+type Align = int
+
+const (
+	AlignLeftUp = iota
+	AlignCenter
 )
 
 type SpriteSheet struct {
@@ -14,13 +20,25 @@ type SpriteSheet struct {
 type Node struct {
 	X float64
 	Y float64
+	Align
 	Surface
+	// z order + align?
 }
 
-func (n *Node) draw(target *ebiten.Image) {
+func (n *Node) Draw(target *ebiten.Image) {
 	opts := ebiten.DrawImageOptions{}
 	opts.GeoM.Translate(n.X, n.Y)
-	n.Surface.draw(target, &opts)
+
+	switch n.Align {
+	case AlignLeftUp:
+	case AlignCenter:
+		w, h := n.Surface.Img.Size()
+		x := -float64(w) / 2.0
+		y := -float64(h) / 2.0
+		opts.GeoM.Translate(x, y)
+	}
+
+	n.Surface.Draw(target, &opts)
 }
 
 // Surface is an image surface (how to render)
@@ -29,6 +47,6 @@ type Surface struct {
 	Img *ebiten.Image
 }
 
-func (s *Surface) draw(target *ebiten.Image, opts *ebiten.DrawImageOptions) {
+func (s *Surface) Draw(target *ebiten.Image, opts *ebiten.DrawImageOptions) {
 	target.DrawImage(s.Img, opts)
 }
