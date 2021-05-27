@@ -130,4 +130,17 @@ func takeTurn(actorIx int) Event {
 
 func Draw(scene *scene.Scene, screen *ebiten.Image) {
 	assets.DrawOcean1(screen)
+
+	drawCentered(screen, state.actors[0].Img, 1280.0/2.0, 720.0-200.0)
+	drawCentered(screen, state.actors[1].Img, 1280.0/2.0, 200.0)
+}
+
+func drawCentered(screen *ebiten.Image, img *ebiten.Image, x float64, y float64) {
+	opts := ebiten.DrawImageOptions{}
+	opts.GeoM.Translate(x, y)
+
+	w, h := img.Size()
+	opts.GeoM.Translate(-float64(w)/2.0, -float64(h)/2.0)
+
+	screen.DrawImage(img, &opts)
 }
