@@ -23,15 +23,12 @@ import (
 
 var (
 	pixelFont       font.Face
-	dialogs         map[string][]string
 	selectedDialogs []string
 	displayDialog   string
 	i               int
 )
 
 func init() {
-	dialogs = make(map[string][]string)
-	dialogs["entry"] = []string{"Your head hurts, you open your eyes", "You look around and realize you're stuck in an Abyss"}
 	selectedDialogs = dialogs["entry"]
 	i = 0
 	displayDialog = selectedDialogs[i]
