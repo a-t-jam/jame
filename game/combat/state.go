@@ -57,7 +57,25 @@ func (s *StateStack) Pop() GuiState {
 
 // ----------------------------------------
 
+var (
+	PlayerEvent *Event
+)
+
+func runAction(action Event) {
+	// `action.run` will create animation and mutate animation queue
+	action.run()
+	// and we'll play the queued animation in `Anim` state
+	state.guiState.Push(Anim)
+}
+
 func updateTick(scene *scene.Scene) {
+	// when we selected player event in `updatePlayerInput`
+	if PlayerEvent != nil {
+		runAction(*PlayerEvent)
+		PlayerEvent = nil
+		state.inc()
+	}
+
 	for {
 		if state.handleStatus() {
 			return
@@ -76,22 +94,36 @@ func updateTick(scene *scene.Scene) {
 		action := takeTurn(actorIx)
 
 		if action == nil {
+			// it's player action. let's enter `PlayerInput` state
+			state.guiState.Push(PlayerInput)
+			return
+		} else {
+			runAction(action)
 			state.inc()
-			continue
+			return
 		}
-
-		action.run()
-		// TODO: play animation
-
-		state.inc()
-		return
 	}
 }
 
 func updateAnim(scene *scene.Scene) {
 	// play or wait for event animation
+
+	// we've finished playing animation. go back to the tick-the-game state
+	state.guiState.Pop()
 }
 
 func updatePlayerInput(scene *scene.Scene) {
-	// decide action (`Event`) of the player
+	var ev Event
+
+	// TODO: use GUI
+	ev = &Attack{
+		attacker: 0, // 0 == player
+		target:   1,
+	}
+
+	if ev != nil {
+		PlayerEvent = &ev
+		// go back to the tick state
+		state.guiState.Pop()
+	}
 }

@@ -96,15 +96,13 @@ func Update(scene *scene.Scene) error {
 	return nil
 }
 
+// takeTurn returns an `Event` that an actor (`Combat`) invokes
 func takeTurn(actorIx int) Event {
 	actor := &state.actors[actorIx]
+
 	if actor.IsFriend {
-		// it's player
-		// TODO: enter input state
-		return Attack{
-			attacker: actorIx,
-			target:   1,
-		}
+		// it's player. let the user select their action (see `state.go`)
+		return nil
 	} else {
 		// it's enemy
 		return Attack{
