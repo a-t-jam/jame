@@ -1,13 +1,13 @@
 package assets
 
-import(
+import (
 	"bytes"
 	"embed"
 	"image"
 	"log"
 
-	_ "image/png"
 	_ "image/jpeg"
+	_ "image/png"
 
 	"github.com/hajimehoshi/ebiten/v2"
 )
@@ -17,8 +17,8 @@ import(
 //go:embed fonts
 var Data embed.FS
 
-var(
-    Bg *ebiten.Image
+var (
+	Bg *ebiten.Image
 )
 
 func DrawBg(screen *ebiten.Image) {
@@ -49,4 +49,3 @@ func LoadImg(path string) *ebiten.Image {
 	ebitenImg := ebiten.NewImageFromImage(img)
 	return ebitenImg
 }
-

@@ -51,9 +51,9 @@ func (g *Game) Update() error {
 	}
 
 	if g.State == TravelState {
-		return travel.Update(&g.Scene);
+		return travel.Update(&g.Scene)
 	} else if g.State == CombatState {
-		return combat.Update(&g.Scene);
+		return combat.Update(&g.Scene)
 	}
 	return dialog.Update(&g.Scene)
 

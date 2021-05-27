@@ -7,9 +7,9 @@ type Event interface {
 
 type Attack struct {
 	attacker uint
-	target uint
+	target   uint
 }
 
-func (a*Attack) run() {
+func (a *Attack) run() {
 	//
 }
