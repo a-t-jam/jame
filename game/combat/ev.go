@@ -15,5 +15,11 @@ type Attack struct {
 }
 
 func (a Attack) run() {
-	fmt.Println("attack action:", a)
+	fmt.Println("attack: ", a)
+
+	attacker := &state.actors[a.attacker]
+	target := &state.actors[a.target]
+
+	target.Hp -= attacker.Atk
+	// TODO: set up running animation
 }

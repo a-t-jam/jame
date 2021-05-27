@@ -44,11 +44,11 @@ func (state *State) enemies() []scene.Combat {
 func (state *State) status() int {
 	actors := &state.actors
 
-	if !(actors[0].Alive) {
+	if !(actors[0].Alive()) {
 		return Defeated
 	}
 
-	if !(actors[1].Alive) {
+	if !(actors[1].Alive()) {
 		return Win
 	}
 
@@ -56,7 +56,7 @@ func (state *State) status() int {
 }
 
 // handleStatus returns true if the combat is finished
-func (state *State) handleStatus() bool {
+func (state *State) handleStatus(scene *scene.Scene) bool {
 	switch state.status() {
 	case Continue:
 		return false
@@ -91,7 +91,7 @@ func Update(scene *scene.Scene) error {
 	case PlayerInput:
 		updatePlayerInput(scene)
 	case Dialog:
-                updateDialog(scene)
+		updateDialog(scene)
 	default:
 		log.Fatalln("wrong combat state")
 	}
@@ -120,7 +120,7 @@ func Draw(scene *scene.Scene, screen *ebiten.Image) {
 
 	drawCentered(screen, state.actors[0].Img, 1280.0/2.0, 720.0-200.0)
 	drawCentered(screen, state.actors[1].Img, 1280.0/2.0, 200.0)
-        dialog.Draw(scene, screen)
+	dialog.Draw(scene, screen)
 }
 
 func drawCentered(screen *ebiten.Image, img *ebiten.Image, x float64, y float64) {

@@ -8,8 +8,8 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
 
-	"github.com/a-t-jam/jame/game/scene"
 	"github.com/a-t-jam/jame/game/dialog"
+	"github.com/a-t-jam/jame/game/scene"
 )
 
 import (
@@ -23,7 +23,7 @@ const (
 	Tick = iota
 	Anim
 	PlayerInput
-        Dialog
+	Dialog
 )
 
 type StateStack struct {
@@ -73,7 +73,7 @@ func runAction(action Event) {
 	state.guiState.Push(Anim)
 }
 
-func updateTick(scene *scene.Scene) {
+func updateTick(s *scene.Scene) {
 	// when we selected player event in `updatePlayerInput`
 	if PlayerEvent != nil {
 		runAction(*PlayerEvent)
@@ -82,7 +82,8 @@ func updateTick(scene *scene.Scene) {
 	}
 
 	for {
-		if state.handleStatus() {
+		if state.handleStatus(s) {
+			s.State = scene.TravelState
 			return
 		}
 
@@ -90,7 +91,7 @@ func updateTick(scene *scene.Scene) {
 		actor := &state.actors[actorIx]
 
 		// skip dead actors
-		if !actor.Alive {
+		if !actor.Alive() {
 			state.inc()
 			continue
 		}
@@ -134,15 +135,15 @@ func updatePlayerInput(scene *scene.Scene) {
 		PlayerEvent = &ev
 		// go back to the tick state
 		state.guiState.Pop()
-                state.guiState.Push(Dialog)
+		state.guiState.Push(Dialog)
 	}
 }
 
 func updateDialog(scene *scene.Scene) {
-    print("hi from dialog")
-    dl := dialog.Update(scene, dialog.Dialogs["player_attack"])
-    if(dl == nil) {
-        state.guiState.Pop()
-        state.guiState.Push(Tick)
-    }
+	print("hi from dialog")
+	dl := dialog.Update(scene, dialog.Dialogs["player_attack"])
+	if dl == nil {
+		state.guiState.Pop()
+		state.guiState.Push(Tick)
+	}
 }

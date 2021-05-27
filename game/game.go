@@ -15,25 +15,14 @@ import (
 	"github.com/a-t-jam/jame/game/travel"
 )
 
-// GameState is the global game state
-type GameState = int
-
-// Game states
-const (
-	TravelState = iota
-	CombatState
-	DialogState
-)
-
 type Game struct {
-	State GameState
 	Scene scene.Scene
 }
 
 func New() Game {
 	return Game{
-		State: TravelState,
 		Scene: scene.Scene{
+			State:  scene.TravelState,
 			Len:    10,
 			Pos:    0,
 			Player: combat.DefaultPlayer,
@@ -43,21 +32,22 @@ func New() Game {
 
 func (g *Game) Update() error {
 	if ebiten.IsKeyPressed(ebiten.Key1) {
-		g.State = TravelState
+		g.Scene.State = scene.TravelState
 	}
 
 	if ebiten.IsKeyPressed(ebiten.Key2) {
-		g.State = CombatState
+		g.Scene.State = scene.CombatState
 		combat.Enter(&g.Scene, combat.Enemy1)
 	}
 
-	switch g.State {
-	case TravelState:
+	switch g.Scene.State {
+	case scene.TravelState:
 		return travel.Update(&g.Scene)
-	case CombatState:
+	case scene.CombatState:
 		return combat.Update(&g.Scene)
-	case DialogState:
-		return combat.Update(&g.Scene)
+	// case scene.DialogState:
+	//     // FIXME:
+	//     return dialog.Update(&g.Scene)
 	default:
 		log.Fatal("wrong state")
 		return nil
@@ -66,12 +56,13 @@ func (g *Game) Update() error {
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
-	switch g.State {
-	case TravelState:
+	switch g.Scene.State {
+	case scene.TravelState:
 		travel.Draw(&g.Scene, screen)
-	case CombatState:
+	case scene.CombatState:
 		combat.Draw(&g.Scene, screen)
-	case DialogState:
+	case scene.DialogState:
+		// FIXME:
 		dialog.Draw(&g.Scene, screen)
 	default:
 		log.Fatal("wrong state")

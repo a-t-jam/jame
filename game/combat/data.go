@@ -26,7 +26,6 @@ func init() {
 
 	DefaultPlayer = scene.Combat{
 		Img:      PlayerImage,
-		Alive:    true,
 		IsFriend: true,
 		MaxHp:    100,
 		Hp:       100,
@@ -39,7 +38,6 @@ func init() {
 
 	Enemy1 = scene.Combat{
 		Img:      Enemy1Image,
-		Alive:    true,
 		IsFriend: false,
 		MaxHp:    100,
 		Hp:       100,
