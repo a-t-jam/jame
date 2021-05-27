@@ -40,7 +40,7 @@ func init() {
 	Enemy1 = scene.Combat{
 		Img:      Enemy1Image,
 		Alive:    true,
-		IsFriend: true,
+		IsFriend: false,
 		MaxHp:    100,
 		Hp:       100,
 		Atk:      50,

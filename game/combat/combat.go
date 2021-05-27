@@ -18,8 +18,9 @@ var (
 type State struct {
 	// 0: player,
 	// 1: enemy
-	actors [2]scene.Combat
-	cur    int
+	actors   [2]scene.Combat
+	cur      int
+	guiState StateStack
 }
 
 // Combat scene status
@@ -52,9 +53,27 @@ func (state *State) status() int {
 	return Continue
 }
 
+// handleStatus returns true if the combat is finished
+func (state *State) handleStatus() bool {
+	switch state.status() {
+	case Continue:
+		return false
+	case Defeated:
+		fmt.Println("dead end")
+		return true
+	case Win:
+		fmt.Println("win")
+		return true
+	default:
+		log.Fatal("wrong status")
+		return true
+	}
+}
+
 // Enter initializes the combat scene
 func Enter(scene *scene.Scene, enemy scene.Combat) {
 	state = State{}
+	state.guiState.Push(Tick)
 
 	state.actors[0] = scene.Player
 	state.actors[1] = enemy
@@ -62,19 +81,12 @@ func Enter(scene *scene.Scene, enemy scene.Combat) {
 
 func Update(scene *scene.Scene) error {
 	for {
-		switch state.status() {
-		case Continue:
-		case Defeated:
-			fmt.Println("dead end")
+		if state.handleStatus() {
 			return nil
-		case Win:
-			fmt.Println("win")
-			return nil
-		default:
-			log.Fatal("wrong status")
 		}
 
-		actor := &state.actors[state.cur]
+		actorIx := state.cur
+		actor := &state.actors[actorIx]
 
 		// skip dead actors
 		if !actor.Alive {
@@ -82,16 +94,18 @@ func Update(scene *scene.Scene) error {
 			continue
 		}
 
-		fmt.Println("Actor", state.cur, "takes turn")
-		action := takeTurn(state.cur)
+		fmt.Println("Actor", actorIx, "takes turn")
+		action := takeTurn(actorIx)
 
 		if action == nil {
 			state.inc()
 			continue
 		}
 
-		// TODO: run action and play animation
+		action.run()
+		// TODO: play animation
 
+		state.inc()
 		return nil
 	}
 }
@@ -100,7 +114,7 @@ func takeTurn(actorIx int) Event {
 	actor := &state.actors[actorIx]
 	if actor.IsFriend {
 		// it's player
-		// TODO: enter combat player input state
+		// TODO: enter input state
 		return Attack{
 			attacker: actorIx,
 			target:   1,
