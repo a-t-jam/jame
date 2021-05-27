@@ -28,9 +28,7 @@ var (
 )
 
 func init() {
-	selectedDialogs = dialogs["entry"]
 	i = 0
-	displayDialog = selectedDialogs[i]
 
 	fontBytes, err := assets.Data.ReadFile("fonts/8bitOperatorPlus8-Regular.ttf")
 	tt, err := opentype.Parse(fontBytes)
@@ -49,10 +47,11 @@ func init() {
 	}
 }
 
-func Update(scene *scene.Scene) error {
+func Update(scene *scene.Scene, dialogInput []string) error {
 	if inpututil.IsKeyJustReleased(ebiten.KeySpace) && i < len(selectedDialogs)-1 {
 		i = i + 1
 	}
+        selectedDialogs = dialogInput
 	displayDialog = selectedDialogs[i]
 	return nil
 }

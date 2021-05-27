@@ -7,6 +7,7 @@ import (
 	"log"
 
 	"github.com/a-t-jam/jame/assets"
+	"github.com/a-t-jam/jame/game/dialog"
 	"github.com/a-t-jam/jame/game/scene"
 	"github.com/hajimehoshi/ebiten/v2"
 )
@@ -89,6 +90,8 @@ func Update(scene *scene.Scene) error {
 		updateAnim(scene)
 	case PlayerInput:
 		updatePlayerInput(scene)
+	case Dialog:
+                updateDialog(scene)
 	default:
 		log.Fatalln("wrong combat state")
 	}
@@ -117,6 +120,7 @@ func Draw(scene *scene.Scene, screen *ebiten.Image) {
 
 	drawCentered(screen, state.actors[0].Img, 1280.0/2.0, 720.0-200.0)
 	drawCentered(screen, state.actors[1].Img, 1280.0/2.0, 200.0)
+        dialog.Draw(scene, screen)
 }
 
 func drawCentered(screen *ebiten.Image, img *ebiten.Image, x float64, y float64) {

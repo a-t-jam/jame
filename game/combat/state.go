@@ -5,7 +5,11 @@ import (
 	_ "image/jpeg"
 	_ "image/png"
 
+	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/inpututil"
+
 	"github.com/a-t-jam/jame/game/scene"
+	"github.com/a-t-jam/jame/game/dialog"
 )
 
 import (
@@ -19,6 +23,7 @@ const (
 	Tick = iota
 	Anim
 	PlayerInput
+        Dialog
 )
 
 type StateStack struct {
@@ -114,16 +119,30 @@ func updateAnim(scene *scene.Scene) {
 
 func updatePlayerInput(scene *scene.Scene) {
 	var ev Event
+	//print("get player input")
 
 	// TODO: use GUI
-	ev = &Attack{
-		attacker: 0, // 0 == player
-		target:   1,
+	// FIXME: for now I'm doing a space button to test, must be done with button GUI
+	if inpututil.IsKeyJustReleased(ebiten.KeySpace) {
+		print("Player attacks")
+		ev = &Attack{
+			attacker: 0, // 0 == player
+			target:   1,
+		}
 	}
-
 	if ev != nil {
 		PlayerEvent = &ev
 		// go back to the tick state
 		state.guiState.Pop()
+                state.guiState.Push(Dialog)
 	}
+}
+
+func updateDialog(scene *scene.Scene) {
+    print("hi from dialog")
+    dl := dialog.Update(scene, dialog.Dialogs["player_attack"])
+    if(dl == nil) {
+        state.guiState.Pop()
+        state.guiState.Push(Tick)
+    }
 }
