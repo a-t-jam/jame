@@ -21,6 +21,7 @@ type State struct {
 	actors   [2]scene.Combat
 	cur      int
 	guiState StateStack
+	// running animation (play GUI of it!)
 }
 
 // Combat scene status
@@ -80,34 +81,19 @@ func Enter(scene *scene.Scene, enemy scene.Combat) {
 }
 
 func Update(scene *scene.Scene) error {
-	for {
-		if state.handleStatus() {
-			return nil
-		}
-
-		actorIx := state.cur
-		actor := &state.actors[actorIx]
-
-		// skip dead actors
-		if !actor.Alive {
-			state.inc()
-			continue
-		}
-
-		fmt.Println("Actor", actorIx, "takes turn")
-		action := takeTurn(actorIx)
-
-		if action == nil {
-			state.inc()
-			continue
-		}
-
-		action.run()
-		// TODO: play animation
-
-		state.inc()
-		return nil
+	// see `state.go`
+	switch state.guiState.Top() {
+	case Tick:
+		updateTick(scene)
+	case Anim:
+		updateAnim(scene)
+	case PlayerInput:
+		updatePlayerInput(scene)
+	default:
+		log.Fatalln("wrong combat state")
 	}
+
+	return nil
 }
 
 func takeTurn(actorIx int) Event {

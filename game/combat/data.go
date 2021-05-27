@@ -35,7 +35,7 @@ func init() {
 	}
 
 	// FIXME:
-	Enemy1Image = assets.LoadImg("sprites/amg1_rt2.png")
+	Enemy1Image = assets.LoadImg("sprites/sotrak_rewop.png")
 
 	Enemy1 = scene.Combat{
 		Img:      Enemy1Image,

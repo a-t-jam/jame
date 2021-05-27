@@ -1,6 +1,14 @@
 package combat
 
 import (
+	"fmt"
+	_ "image/jpeg"
+	_ "image/png"
+
+	"github.com/a-t-jam/jame/game/scene"
+)
+
+import (
 	"log"
 )
 
@@ -45,4 +53,45 @@ func (s *StateStack) Pop() GuiState {
 	s.states = s.states[:last]
 
 	return pop
+}
+
+// ----------------------------------------
+
+func updateTick(scene *scene.Scene) {
+	for {
+		if state.handleStatus() {
+			return
+		}
+
+		actorIx := state.cur
+		actor := &state.actors[actorIx]
+
+		// skip dead actors
+		if !actor.Alive {
+			state.inc()
+			continue
+		}
+
+		fmt.Println("Actor", actorIx, "takes turn")
+		action := takeTurn(actorIx)
+
+		if action == nil {
+			state.inc()
+			continue
+		}
+
+		action.run()
+		// TODO: play animation
+
+		state.inc()
+		return
+	}
+}
+
+func updateAnim(scene *scene.Scene) {
+	// play or wait for event animation
+}
+
+func updatePlayerInput(scene *scene.Scene) {
+	// decide action (`Event`) of the player
 }
