@@ -15,20 +15,31 @@ import (
 //go:embed winddorf
 //go:embed sprites
 //go:embed fonts
+//go:embed bg
 var Data embed.FS
 
 var (
-	Bg *ebiten.Image
+	Bg     *ebiten.Image
+	Ocean1 *ebiten.Image
+	Ocean2 *ebiten.Image
 )
 
-func DrawBg(screen *ebiten.Image) {
-	op := &ebiten.DrawImageOptions{}
-	op.GeoM.Translate((1280-790)/2, (720-480)/2)
-	screen.DrawImage(Bg, op)
+func DrawOcean1(screen *ebiten.Image) {
+	opts := ebiten.DrawImageOptions{}
+	opts.GeoM.Scale(1.0/4.0, 1.0/4.0)
+	screen.DrawImage(Ocean1, &opts)
+}
+
+func DrawOcean2(screen *ebiten.Image) {
+	opts := ebiten.DrawImageOptions{}
+	opts.GeoM.Scale(1.0/3.0, 1.0/3.0)
+	screen.DrawImage(Ocean2, &opts)
 }
 
 func init() {
 	Bg = LoadImg("winddorf/kyoto.jpg")
+	Ocean1 = LoadImg("bg/ocean1.jpg")
+	Ocean2 = LoadImg("bg/ocean2.jpg")
 }
 
 // LoadImg loads an ebiten image from the `assets` directory

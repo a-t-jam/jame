@@ -32,22 +32,26 @@ func (c *State) inc() {
 	c.cur %= len(state.actors)
 }
 
+func (state *State) friends() []scene.Combat {
+	return state.actors[0:3]
+}
+
+func (state *State) enemies() []scene.Combat {
+	return state.actors[3:]
+}
+
 func (state *State) status() int {
 	actors := &state.actors
 
-	if !actors[0].Alive && !actors[1].Alive && !actors[2].Alive {
+	if !(actors[0].Alive || actors[1].Alive || actors[2].Alive) {
 		return DucksDied
 	}
 
-	if !actors[3].Alive && !actors[4].Alive && !actors[5].Alive && !actors[6].Alive && !actors[7].Alive {
+	if !(actors[3].Alive || actors[4].Alive || actors[5].Alive || actors[6].Alive || actors[7].Alive) {
 		return EnemiseDied
 	}
 
 	return Continue
-}
-
-func takeTurn(actor *scene.Combat) Event {
-	return nil
 }
 
 // Enter initializes the combat scene
@@ -85,11 +89,16 @@ func Update(scene *scene.Scene) error {
 			continue
 		}
 
-		// TODO: play animation
+		// TODO: run action and play animation
+
 		return nil
 	}
 }
 
+func takeTurn(actor *scene.Combat) Event {
+	return nil
+}
+
 func Draw(scene *scene.Scene, screen *ebiten.Image) {
-	assets.DrawBg(screen)
+	assets.DrawOcean1(screen)
 }
