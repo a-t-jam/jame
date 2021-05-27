@@ -24,6 +24,12 @@ var (
 	Ocean2 *ebiten.Image
 )
 
+func init() {
+	Bg = LoadImg("winddorf/kyoto.jpg")
+	Ocean1 = LoadImg("bg/ocean1.jpg")
+	Ocean2 = LoadImg("bg/ocean2.jpg")
+}
+
 func DrawOcean1(screen *ebiten.Image) {
 	opts := ebiten.DrawImageOptions{}
 	opts.GeoM.Scale(1.0/4.0, 1.0/4.0)
@@ -34,12 +40,6 @@ func DrawOcean2(screen *ebiten.Image) {
 	opts := ebiten.DrawImageOptions{}
 	opts.GeoM.Scale(1.0/3.0, 1.0/3.0)
 	screen.DrawImage(Ocean2, &opts)
-}
-
-func init() {
-	Bg = LoadImg("winddorf/kyoto.jpg")
-	Ocean1 = LoadImg("bg/ocean1.jpg")
-	Ocean2 = LoadImg("bg/ocean2.jpg")
 }
 
 // LoadImg loads an ebiten image from the `assets` directory

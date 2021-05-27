@@ -1,19 +1,15 @@
 package scene
 
-type Item struct {
-	//
-}
-
-type Actor struct {
-	Combat
-}
+import (
+	"github.com/hajimehoshi/ebiten/v2"
+)
 
 type Combat struct {
+	// GUI
+	Img *ebiten.Image
+	// status
 	Alive    bool
 	IsFriend bool
-	// energy to take turn
-	Energy     uint
-	EnergyGain uint
 	// states
 	MaxHp uint
 	Hp    uint
@@ -22,8 +18,7 @@ type Combat struct {
 }
 
 type Scene struct {
-	Len       uint
-	Pos       uint
-	Inventory []*Item
-	Ducks     []*Actor
+	Len    uint
+	Pos    uint
+	Player Combat
 }

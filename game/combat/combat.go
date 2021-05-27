@@ -16,15 +16,17 @@ var (
 )
 
 type State struct {
-	// 0 ~ 2: ducks. 3 ~: ememies
-	actors [8]scene.Combat
+	// 0: player,
+	// 1: enemy
+	actors [2]scene.Combat
 	cur    int
 }
 
+// Combat scene status
 const (
 	Continue = iota
-	DucksDied
-	EnemiseDied
+	Defeated
+	Win
 )
 
 func (c *State) inc() {
@@ -32,42 +34,40 @@ func (c *State) inc() {
 	c.cur %= len(state.actors)
 }
 
-func (state *State) friends() []scene.Combat {
-	return state.actors[0:3]
-}
-
 func (state *State) enemies() []scene.Combat {
-	return state.actors[3:]
+	return state.actors[1:]
 }
 
 func (state *State) status() int {
 	actors := &state.actors
 
-	if !(actors[0].Alive || actors[1].Alive || actors[2].Alive) {
-		return DucksDied
+	if !(actors[0].Alive) {
+		return Defeated
 	}
 
-	if !(actors[3].Alive || actors[4].Alive || actors[5].Alive || actors[6].Alive || actors[7].Alive) {
-		return EnemiseDied
+	if !(actors[1].Alive) {
+		return Win
 	}
 
 	return Continue
 }
 
 // Enter initializes the combat scene
-func Enter(scene *scene.Scene) {
+func Enter(scene *scene.Scene, enemy scene.Combat) {
 	state = State{}
-	// TODO: overwrite `state` with `scene.ducks`
+
+	state.actors[0] = scene.Player
+	state.actors[1] = enemy
 }
 
 func Update(scene *scene.Scene) error {
 	for {
 		switch state.status() {
 		case Continue:
-		case DucksDied:
+		case Defeated:
 			fmt.Println("dead end")
 			return nil
-		case EnemiseDied:
+		case Win:
 			fmt.Println("win")
 			return nil
 		default:
@@ -76,13 +76,14 @@ func Update(scene *scene.Scene) error {
 
 		actor := &state.actors[state.cur]
 
+		// skip dead actors
 		if !actor.Alive {
 			state.inc()
 			continue
 		}
 
 		fmt.Println("Actor", state.cur, "takes turn")
-		action := takeTurn(actor)
+		action := takeTurn(state.cur)
 
 		if action == nil {
 			state.inc()
@@ -95,8 +96,22 @@ func Update(scene *scene.Scene) error {
 	}
 }
 
-func takeTurn(actor *scene.Combat) Event {
-	return nil
+func takeTurn(actorIx int) Event {
+	actor := &state.actors[actorIx]
+	if actor.IsFriend {
+		// it's player
+		// TODO: enter combat player input state
+		return Attack{
+			attacker: actorIx,
+			target:   1,
+		}
+	} else {
+		// it's enemy
+		return Attack{
+			attacker: actorIx,
+			target:   0,
+		}
+	}
 }
 
 func Draw(scene *scene.Scene, screen *ebiten.Image) {

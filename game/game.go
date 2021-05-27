@@ -1,8 +1,9 @@
 package game
 
 import (
-	_ "embed"
+	"log"
 
+	_ "embed"
 	_ "image/jpeg"
 	_ "image/png"
 
@@ -21,6 +22,7 @@ type GameState = int
 const (
 	TravelState = iota
 	CombatState
+	DialogState
 )
 
 type Game struct {
@@ -32,10 +34,9 @@ func New() Game {
 	return Game{
 		State: TravelState,
 		Scene: scene.Scene{
-			Len:       10,
-			Pos:       0,
-			Inventory: nil,
-			Ducks:     nil,
+			Len:    10,
+			Pos:    0,
+			Player: combat.DefaultPlayer,
 		},
 	}
 }
@@ -47,27 +48,34 @@ func (g *Game) Update() error {
 
 	if ebiten.IsKeyPressed(ebiten.Key2) {
 		g.State = CombatState
-		combat.Enter(&g.Scene)
+		combat.Enter(&g.Scene, combat.Enemy1)
 	}
 
-	if g.State == TravelState {
+	switch g.State {
+	case TravelState:
 		return travel.Update(&g.Scene)
-	} else if g.State == CombatState {
+	case CombatState:
 		return combat.Update(&g.Scene)
+	case DialogState:
+		return combat.Update(&g.Scene)
+	default:
+		log.Fatal("wrong state")
+		return nil
 	}
-	return dialog.Update(&g.Scene)
 
-	//return nil; // ?
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
-	if g.State == TravelState {
+	switch g.State {
+	case TravelState:
 		travel.Draw(&g.Scene, screen)
-	} else if g.State == CombatState {
+	case CombatState:
 		combat.Draw(&g.Scene, screen)
+	case DialogState:
+		dialog.Draw(&g.Scene, screen)
+	default:
+		log.Fatal("wrong state")
 	}
-
-	dialog.Draw(&g.Scene, screen)
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
