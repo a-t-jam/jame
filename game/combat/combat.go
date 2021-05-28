@@ -2,15 +2,16 @@ package combat
 
 import (
 	"fmt"
-	_ "image/jpeg"
-	_ "image/png"
+	"image/color"
 	"log"
 
 	"github.com/a-t-jam/jame/assets"
 	"github.com/a-t-jam/jame/game/dialog"
 	"github.com/a-t-jam/jame/game/scene"
 	"github.com/a-t-jam/jame/ui"
+
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/text"
 )
 
 var (
@@ -144,6 +145,23 @@ func Draw(scene *scene.Scene, screen *ebiten.Image) {
 	}
 
 	dialog.Draw(scene, screen)
+
+	drawDebug(scene, screen)
+}
+
+func drawDebug(scene *scene.Scene, screen *ebiten.Image) {
+	message := "State stack:"
+	for _, s := range state.guiState.states {
+		message += fmt.Sprintf(" %d", int(s))
+	}
+
+	message += "\n"
+	message += fmt.Sprintf("player: %#v", state.actors[0])
+
+	message += "\n"
+	message += fmt.Sprintf("enemy: %#v", state.actors[1])
+
+	text.Draw(screen, message, assets.DebugFont, 40, 340, color.White)
 }
 
 func drawCentered(screen *ebiten.Image, img *ebiten.Image, x float64, y float64) {

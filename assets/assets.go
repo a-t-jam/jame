@@ -26,28 +26,15 @@ var (
 	Ocean1    *ebiten.Image
 	Ocean2    *ebiten.Image
 	PixelFont font.Face
+	DebugFont font.Face
 )
 
 func init() {
 	Bg = LoadImg("winddorf/kyoto.jpg")
 	Ocean1 = LoadImg("bg/ocean1.jpg")
 	Ocean2 = LoadImg("bg/ocean2.jpg")
-
-	fontBytes, err := assets.Data.ReadFile("fonts/8bitOperatorPlus8-Regular.ttf")
-	tt, err := opentype.Parse(fontBytes)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	const dpi = 72
-	pixelFont, err = opentype.NewFace(tt, &opentype.FaceOptions{
-		Size:    24,
-		DPI:     dpi,
-		Hinting: font.HintingFull,
-	})
-	if err != nil {
-		log.Fatal(err)
-	}
+	PixelFont = LoadFont("fonts/8bitOperatorPlus8-Regular.ttf", 72, 24)
+	DebugFont = LoadFont("fonts/8bitOperatorPlus8-Regular.ttf", 72, 14)
 }
 
 func DrawOcean1(screen *ebiten.Image) {
@@ -79,4 +66,23 @@ func LoadImg(path string) *ebiten.Image {
 	// ebiten image
 	ebitenImg := ebiten.NewImageFromImage(img)
 	return ebitenImg
+}
+
+func LoadFont(path string, dpi float64, size float64) font.Face {
+	fontBytes, err := Data.ReadFile("fonts/8bitOperatorPlus8-Regular.ttf")
+	tt, err := opentype.Parse(fontBytes)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	font_face, err := opentype.NewFace(tt, &opentype.FaceOptions{
+		Size:    size,
+		DPI:     dpi,
+		Hinting: font.HintingFull,
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return font_face
 }
