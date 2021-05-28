@@ -73,7 +73,9 @@ func runAction(action Event) {
 	// `action.run` will create animation and mutate animation queue
 	action.run()
 	// and we'll play the queued animation in `Anim` state
-	state.guiState.Push(Anim)
+	if state.guiState.Top() != Anim {
+		state.guiState.Push(Anim)
+	}
 }
 
 func updateTick(s *scene.Scene) {
