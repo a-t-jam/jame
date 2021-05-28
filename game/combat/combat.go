@@ -150,7 +150,9 @@ func Draw(scene *scene.Scene, screen *ebiten.Image) {
 }
 
 func drawDebug(scene *scene.Scene, screen *ebiten.Image) {
-	message := "State stack:"
+	message := fmt.Sprintf("FPS: %v\n", ebiten.CurrentFPS())
+
+	message += "State stack:"
 	for _, s := range state.guiState.states {
 		message += fmt.Sprintf(" %d", int(s))
 	}
