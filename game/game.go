@@ -8,6 +8,7 @@ import (
 	_ "image/png"
 
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/inpututil"
 
 	"github.com/a-t-jam/jame/game/combat"
 	"github.com/a-t-jam/jame/game/dialog"
@@ -31,11 +32,11 @@ func New() Game {
 }
 
 func (g *Game) Update() error {
-	if ebiten.IsKeyPressed(ebiten.Key1) {
+	if inpututil.IsKeyJustPressed(ebiten.Key1) {
 		g.Scene.State = scene.TravelState
 	}
 
-	if ebiten.IsKeyPressed(ebiten.Key2) {
+	if inpututil.IsKeyJustPressed(ebiten.Key2) {
 		g.Scene.State = scene.CombatState
 		combat.Enter(&g.Scene, combat.Enemy1)
 	}
