@@ -125,7 +125,7 @@ func updatePlayerInput(scene *scene.Scene) {
 	// TODO: use GUI
 	// FIXME: for now I'm doing a space button to test, must be done with button GUI
 	if inpututil.IsKeyJustReleased(ebiten.KeySpace) {
-		print("Player attacks")
+		println("Player attacks")
 		ev = &Attack{
 			attacker: 0, // 0 == player
 			target:   1,
@@ -140,10 +140,9 @@ func updatePlayerInput(scene *scene.Scene) {
 }
 
 func updateDialog(scene *scene.Scene) {
-	print("hi from dialog")
+	println("hi from dialog")
 	dl := dialog.Update(scene, dialog.Dialogs["player_attack"])
 	if dl == nil {
 		state.guiState.Pop()
-		state.guiState.Push(Tick)
 	}
 }
