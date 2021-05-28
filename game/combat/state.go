@@ -45,6 +45,7 @@ func (s *StateStack) Top() GuiState {
 
 func (s *StateStack) Push(state GuiState) {
 	s.states = append(s.states, state)
+	println("after push: %#v", s.states)
 }
 
 func (s *StateStack) Pop() GuiState {
@@ -56,6 +57,8 @@ func (s *StateStack) Pop() GuiState {
 	last := len(s.states) - 1
 	pop := s.states[last]
 	s.states = s.states[:last]
+
+	println("after pop: %#v", s.states)
 
 	return pop
 }
