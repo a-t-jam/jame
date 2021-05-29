@@ -22,7 +22,7 @@ var (
 
 func init() {
 	// FIXME:
-	PlayerImage = assets.LoadImg("sprites/amg1_rt2.png")
+	PlayerImage = assets.BattleDuck
 
 	DefaultPlayer = scene.Combat{
 		Img:      PlayerImage,
