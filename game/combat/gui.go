@@ -1,9 +1,6 @@
 package combat
 
 import (
-	_ "image/jpeg"
-	_ "image/png"
-
 	"github.com/a-t-jam/jame/assets"
 	"github.com/a-t-jam/jame/ui"
 	"github.com/hajimehoshi/ebiten/v2"

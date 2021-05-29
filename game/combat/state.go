@@ -42,7 +42,7 @@ func (s *StateStack) Top() GuiState {
 
 func (s *StateStack) Push(state GuiState) {
 	s.states = append(s.states, state)
-	fmt.Printf("after push: %#v\n", s.states)
+	fmt.Printf("    after push: %#v\n", s.states)
 }
 
 func (s *StateStack) Pop() GuiState {
@@ -55,7 +55,7 @@ func (s *StateStack) Pop() GuiState {
 	pop := s.states[last]
 	s.states = s.states[:last]
 
-	fmt.Printf("after pop: %#v\n", s.states)
+	fmt.Printf("    after pop: %#v\n", s.states)
 
 	return pop
 }

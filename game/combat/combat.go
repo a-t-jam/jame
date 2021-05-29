@@ -185,6 +185,14 @@ func drawDebug(scene *scene.Scene, screen *ebiten.Image) {
 	}
 
 	message += "\n"
+	message += "UI surfaces:"
+	for _, n := range cState.nodes {
+		s := n.Surface
+		message += "\n"
+		message += fmt.Sprintf("  - %#v", s)
+	}
+
+	message += "\n"
 	message += "anims:"
 	for _, a := range aState.anims {
 		message += fmt.Sprintf("\n  - %#v", a)
