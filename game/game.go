@@ -39,6 +39,7 @@ func (g *Game) Update() error {
 	if inpututil.IsKeyJustPressed(ebiten.Key2) {
 		g.Scene.State = scene.CombatState
 		combat.Enter(&g.Scene, combat.Enemy1)
+		return nil
 	}
 
 	switch g.Scene.State {
