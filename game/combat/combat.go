@@ -85,21 +85,17 @@ func Enter(scene *scene.Scene, enemy scene.Combat) {
 
 	// TODO: easier use?
 	state.nodes = append(state.nodes, ui.Node{
-		X:     1280.0 / 2.0,
-		Y:     720.0 - 200.0,
-		Align: ui.AlignCenter,
-		Surface: ui.Surface{
-			Img: state.actors[0].Img,
-		},
+		X:       1280.0 / 2.0,
+		Y:       720.0 - 200.0,
+		Align:   ui.AlignCenter,
+		Surface: state.actors[0].Surface,
 	})
 
 	state.nodes = append(state.nodes, ui.Node{
-		X:     1280.0 / 2.0,
-		Y:     200.0,
-		Align: ui.AlignCenter,
-		Surface: ui.Surface{
-			Img: state.actors[1].Img,
-		},
+		X:       1280.0 / 2.0,
+		Y:       200.0,
+		Align:   ui.AlignCenter,
+		Surface: state.actors[1].Surface,
 	})
 }
 

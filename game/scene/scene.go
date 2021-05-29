@@ -1,13 +1,13 @@
 package scene
 
 import (
-	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/a-t-jam/jame/ui"
 )
 
 type Combat struct {
 	// GUI
-	Img *ebiten.Image
-	// status
+	Surface *ui.Surface
+	// meta
 	IsFriend bool
 	// states
 	MaxHp int
