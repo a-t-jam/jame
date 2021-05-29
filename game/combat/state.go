@@ -176,6 +176,7 @@ func updateAnim(scene *scene.Scene) {
 		cState.nodes = cState.nodes[0:2]
 		// dequeue the animation description
 		aState.anims = aState.anims[1:]
+		aState.playing = false
 	}
 }
 
