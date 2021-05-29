@@ -79,6 +79,7 @@ func updateTick(s *scene.Scene) {
 		runAction(*PlayerEvent)
 		PlayerEvent = nil
 		cState.inc()
+		return
 	}
 
 	for {
@@ -170,6 +171,11 @@ func updateAnim(scene *scene.Scene) {
 		SwingSound.Play()
 	}
 
+	if frame < n_frames {
+		node := &cState.nodes[2]
+		node.Surface.CurrentFrameIx = frame
+	}
+
 	// at end of the animation
 	if frame >= n_frames {
 		// remove the animation node
@@ -198,6 +204,7 @@ func updatePlayerInput(scene *scene.Scene) {
 		PlayerEvent = &ev
 		// go back to the tick state
 		cState.guiState.Pop()
+		// TODO: do we need it?
 		cState.guiState.Push(Dialog)
 	}
 }

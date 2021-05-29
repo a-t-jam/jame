@@ -112,6 +112,7 @@ func (s *Surface) Frame(frame int) image.Image {
 
 	w, h := s.Img.Size()
 
+	// in pixel coordinates
 	rect := image.Rectangle{}
 	rect.Min.X = int(uv.X * float64(w))
 	rect.Min.Y = int(uv.Y * float64(h))
