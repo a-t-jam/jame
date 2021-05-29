@@ -1,8 +1,12 @@
 package travel
 
 import (
+	"fmt"
+	"image/color"
+
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
+	"github.com/hajimehoshi/ebiten/v2/text"
 
 	"github.com/a-t-jam/jame/assets"
 	"github.com/a-t-jam/jame/game/scene"
@@ -30,4 +34,11 @@ func Draw(scene *scene.Scene, screen *ebiten.Image) {
 	op.GeoM.Translate(50, 100)
 	op.GeoM.Scale(2, 2)
 	screen.DrawImage(playerSprite, &op)
+
+	debugDraw(scene, screen)
+}
+
+func debugDraw(scene *scene.Scene, screen *ebiten.Image) {
+	message := fmt.Sprintf("FPS: %v", ebiten.CurrentFPS())
+	text.Draw(screen, message, assets.PixelFont, 100.0, 300.0, color.White)
 }
