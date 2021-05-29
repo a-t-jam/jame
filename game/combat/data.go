@@ -17,8 +17,11 @@ var (
 )
 
 func init() {
+	surface := ui.NewAnimSurface(assets.BattleDuck, 5, 1)
+	surface.Scale = [2]float64{2.0, 2.0}
+
 	DefaultPlayer = scene.Combat{
-		Surface:  ui.NewAnimSurface(assets.BattleDuck, 5, 1),
+		Surface:  surface,
 		IsFriend: true,
 		MaxHp:    100,
 		Hp:       100,

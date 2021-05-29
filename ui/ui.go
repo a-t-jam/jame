@@ -24,12 +24,13 @@ type Node struct {
 	X float64
 	Y float64
 	Align
-	Surface  *Surface
-	BaseOpts ebiten.DrawImageOptions
+	Surface *Surface
 }
 
 func (n *Node) Draw(target *ebiten.Image) {
 	opts := ebiten.DrawImageOptions{}
+
+	opts.GeoM.Scale(n.Surface.Scale[0], n.Surface.Scale[1])
 	opts.GeoM.Translate(n.X, n.Y)
 
 	switch n.Align {
@@ -37,9 +38,12 @@ func (n *Node) Draw(target *ebiten.Image) {
 	case AlignCenter:
 		frame := n.Surface.CurrentFrame()
 
-		w, h := frame.Size()
-		x := -float64(w) / 2.0
-		y := -float64(h) / 2.0
+		w_i, h_i := frame.Size()
+		w := float64(w_i) * n.Surface.Scale[0]
+		h := float64(h_i) * n.Surface.Scale[1]
+
+		x := -w / 2.0
+		y := -h / 2.0
 
 		opts.GeoM.Translate(x, y)
 	}
@@ -61,6 +65,7 @@ type UvRect struct {
 type Surface struct {
 	Img            *ebiten.Image
 	Uvs            []UvRect
+	Scale          [2]float64
 	CurrentFrameIx int
 }
 
@@ -69,6 +74,7 @@ func NewImageSurface(img *ebiten.Image) *Surface {
 
 	s.Img = img
 	s.Uvs = append(s.Uvs, UvRect{x: 0.0, y: 0.0, w: 1.0, h: 1.0})
+	s.Scale = [2]float64{1.0, 1.0}
 
 	return s
 }
