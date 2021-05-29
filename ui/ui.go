@@ -83,6 +83,8 @@ func NewAnimSurface(img *ebiten.Image, n_x int, n_y int) *Surface {
 	s := new(Surface)
 
 	s.Img = img
+	s.Scale = [2]float64{1.0, 1.0}
+
 	w := 1.0 / float64(n_x)
 	h := 1.0 / float64(n_y)
 
