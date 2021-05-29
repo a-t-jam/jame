@@ -98,6 +98,8 @@ func Enter(scene *scene.Scene, enemy scene.Combat) {
 		Align:   ui.AlignCenter,
 		Surface: cState.actors[1].Surface,
 	})
+
+	aState = AnimRunState{}
 }
 
 func Update(scene *scene.Scene) error {
