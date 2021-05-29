@@ -174,6 +174,16 @@ func drawDebug(scene *scene.Scene, screen *ebiten.Image) {
 		message += fmt.Sprintf(" %d", int(s))
 	}
 
+	message += "UI nodes:"
+	for _, n := range cState.nodes {
+		message += fmt.Sprintf(" %#v", n)
+	}
+
+	message += "anims:"
+	for _, a := range aState.anims {
+		message += fmt.Sprintf("\n  - %#v^n", a)
+	}
+
 	message += "\n"
 	message += fmt.Sprintf("player: %#v", cState.actors[0])
 

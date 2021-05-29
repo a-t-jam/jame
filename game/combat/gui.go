@@ -14,9 +14,9 @@ var (
 )
 
 func init() {
-	AttackTex = assets.LoadImg("pipoya/effects/006.png")
+	AttackTex = assets.LoadImg("pipoya/effects/008.png")
 }
 
 func NewAttackSurface() *ui.Surface {
-	return ui.NewAnimSurface(AttackTex, 7, 1)
+	return ui.NewAnimSurface(AttackTex, 8, 1)
 }

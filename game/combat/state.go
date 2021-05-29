@@ -148,23 +148,29 @@ func updateAnim(scene *scene.Scene) {
 
 		node := ui.Node{Align: ui.AlignCenter, Surface: NewAttackSurface()}
 
-		if anim.actor == 0 {
-			node.X = 1280.0 / 2.0
-			node.Y = 200
-		} else {
+		if anim.target == 0 {
 			node.X = 1280.0 / 2.0
 			node.Y = 720 - 200
+		} else {
+			node.X = 1280.0 / 2.0
+			node.Y = 200
 		}
 
 		cState.nodes = append(cState.nodes, node)
 	}
 
-	// play fixed 7 frame animation
+	// play fixed 8 frame animation
+	n_frames := 8
+
 	ms := time.Since(aState.start).Milliseconds()
 	frame := int(ms / (1000 / 60))
 
+	if frame < n_frames {
+		//
+	}
+
 	// at end of the animation
-	if frame >= 7 {
+	if frame >= n_frames {
 		// remove the animation node
 		cState.nodes = cState.nodes[0:2]
 		// dequeue the animation description
