@@ -177,23 +177,25 @@ func drawDebug(scene *scene.Scene, screen *ebiten.Image) {
 		message += fmt.Sprintf(" %d", int(s))
 	}
 
+	message += "\n"
 	message += "UI nodes:"
 	for _, n := range cState.nodes {
-		message += fmt.Sprintf("  - %#v\n", n)
+		message += "\n"
+		message += fmt.Sprintf("  - %#v", n)
 	}
 
+	message += "\n"
 	message += "anims:"
 	for _, a := range aState.anims {
 		message += fmt.Sprintf("\n  - %#v", a)
 	}
 
-	message += "\nActors:"
-
 	message += "\n"
-	message += fmt.Sprintf("  - player: %#v", cState.actors[0])
-
-	message += "\n"
-	message += fmt.Sprintf("  - enemy: %#v", cState.actors[1])
+	message += "Actors:"
+	for _, a := range cState.actors {
+		message += "\n"
+		message += fmt.Sprintf("  - %#v", a)
+	}
 
 	text.Draw(screen, message, assets.DebugFont, 40, 340, color.White)
 }
