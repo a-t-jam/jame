@@ -16,9 +16,8 @@ import (
 )
 
 //go:embed winddorf
-//go:embed sprites
-//go:embed fonts
-//go:embed bg
+//go:embed sprites pipoya
+//go:embed bg fonts
 var Data embed.FS
 
 var (
@@ -32,7 +31,7 @@ var (
 func init() {
 	Bg = LoadImg("winddorf/kyoto.jpg")
 	Ocean1 = LoadImg("bg/ocean1.jpg")
-	Ocean2 = LoadImg("bg/ocean2.jpg")
+	// Ocean2 = LoadImg("bg/ocean2.jpg")
 	PixelFont = LoadFont("fonts/8bitOperatorPlus8-Regular.ttf", 72, 24)
 	DebugFont = LoadFont("fonts/8bitOperatorPlus8-Regular.ttf", 72, 14)
 }
@@ -43,11 +42,11 @@ func DrawOcean1(screen *ebiten.Image) {
 	screen.DrawImage(Ocean1, &opts)
 }
 
-func DrawOcean2(screen *ebiten.Image) {
-	opts := ebiten.DrawImageOptions{}
-	opts.GeoM.Scale(1.0/3.0, 1.0/3.0)
-	screen.DrawImage(Ocean2, &opts)
-}
+// func DrawOcean2(screen *ebiten.Image) {
+//     opts := ebiten.DrawImageOptions{}
+//     opts.GeoM.Scale(1.0/3.0, 1.0/3.0)
+//     screen.DrawImage(Ocean2, &opts)
+// }
 
 // LoadImg loads an ebiten image from the `assets` directory
 func LoadImg(path string) *ebiten.Image {

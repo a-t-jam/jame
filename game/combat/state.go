@@ -2,18 +2,13 @@ package combat
 
 import (
 	"fmt"
-	_ "image/jpeg"
-	_ "image/png"
+	"log"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
 
 	"github.com/a-t-jam/jame/game/dialog"
 	"github.com/a-t-jam/jame/game/scene"
-)
-
-import (
-	"log"
 )
 
 type GuiState int
@@ -136,6 +131,7 @@ func updatePlayerInput(scene *scene.Scene) {
 			target:   1,
 		}
 	}
+
 	if ev != nil {
 		PlayerEvent = &ev
 		// go back to the tick state
