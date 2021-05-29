@@ -171,6 +171,7 @@ func updateAnims(scene_ *scene.Scene, screen *ebiten.Image) {
 func drawDebug(scene *scene.Scene, screen *ebiten.Image) {
 	message := fmt.Sprintf("FPS: %v\n", ebiten.CurrentFPS())
 
+	message += "\n"
 	message += "State stack:"
 	for _, s := range cState.guiState.states {
 		message += fmt.Sprintf(" %d", int(s))
@@ -178,19 +179,21 @@ func drawDebug(scene *scene.Scene, screen *ebiten.Image) {
 
 	message += "UI nodes:"
 	for _, n := range cState.nodes {
-		message += fmt.Sprintf(" %#v", n)
+		message += fmt.Sprintf("  - %#v\n", n)
 	}
 
 	message += "anims:"
 	for _, a := range aState.anims {
-		message += fmt.Sprintf("\n  - %#v^n", a)
+		message += fmt.Sprintf("\n  - %#v", a)
 	}
 
-	message += "\n"
-	message += fmt.Sprintf("player: %#v", cState.actors[0])
+	message += "\nActors:"
 
 	message += "\n"
-	message += fmt.Sprintf("enemy: %#v", cState.actors[1])
+	message += fmt.Sprintf("  - player: %#v", cState.actors[0])
+
+	message += "\n"
+	message += fmt.Sprintf("  - enemy: %#v", cState.actors[1])
 
 	text.Draw(screen, message, assets.DebugFont, 40, 340, color.White)
 }
