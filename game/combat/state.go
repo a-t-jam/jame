@@ -162,6 +162,7 @@ func updateAnim(scene *scene.Scene) {
 
 	// play fixed 8 frame animation
 	n_frames := 8
+	n_wait_frames := 12
 
 	ms := time.Since(aState.start).Milliseconds()
 	frame := int(ms / (1000 / 60))
@@ -178,8 +179,12 @@ func updateAnim(scene *scene.Scene) {
 
 	// at end of the animation
 	if frame >= n_frames {
-		// remove the animation node
+		// remove the node for the animation
 		cState.nodes = cState.nodes[0:2]
+	}
+
+	// on finish: go to next animation
+	if frame >= n_frames+n_wait_frames {
 		// dequeue the animation description
 		aState.anims = aState.anims[1:]
 		aState.playing = false
