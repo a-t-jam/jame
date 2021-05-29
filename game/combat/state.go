@@ -3,12 +3,14 @@ package combat
 import (
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
 
 	"github.com/a-t-jam/jame/game/dialog"
 	"github.com/a-t-jam/jame/game/scene"
+	"github.com/a-t-jam/jame/ui"
 )
 
 type GuiState int
@@ -16,7 +18,7 @@ type GuiState int
 // Combat GUI states
 const (
 	Tick = iota
-	Anim
+	AnimState
 	PlayerInput
 	Dialog
 )
@@ -68,9 +70,7 @@ func runAction(action Event) {
 	// `action.run` will create animation and mutate animation queue
 	action.run()
 	// and we'll play the queued animation in `Anim` state
-	if state.guiState.Top() != Anim {
-		state.guiState.Push(Anim)
-	}
+	pushAnim(action.anim())
 }
 
 func updateTick(s *scene.Scene) {
@@ -78,21 +78,21 @@ func updateTick(s *scene.Scene) {
 	if PlayerEvent != nil {
 		runAction(*PlayerEvent)
 		PlayerEvent = nil
-		state.inc()
+		cState.inc()
 	}
 
 	for {
-		if state.handleStatus(s) {
+		if cState.handleStatus(s) {
 			s.State = scene.TravelState
 			return
 		}
 
-		actorIx := state.cur
-		actor := &state.actors[actorIx]
+		actorIx := cState.cur
+		actor := &cState.actors[actorIx]
 
 		// skip dead actors
 		if !actor.Alive() {
-			state.inc()
+			cState.inc()
 			continue
 		}
 
@@ -101,21 +101,75 @@ func updateTick(s *scene.Scene) {
 
 		if action == nil {
 			// it's player action. let's enter `PlayerInput` state
-			state.guiState.Push(PlayerInput)
+			cState.guiState.Push(PlayerInput)
 			return
 		} else {
 			runAction(action)
-			state.inc()
+			cState.inc()
 			return
 		}
 	}
 }
 
-func updateAnim(scene *scene.Scene) {
-	// play or wait for event animation
+type AnimRunState struct {
+	anims []Anim
+	// true while we're playing the first element of `anims`
+	playing bool
+	start   time.Time
+}
 
-	// we've finished playing animation. go back to the tick-the-game state
-	state.guiState.Pop()
+// pushAnim pushes a given animation to the animaton queue and lets you enter `AnimState`
+func pushAnim(anim Anim) {
+	if cState.guiState.Top() != AnimState {
+		cState.guiState.Push(AnimState)
+	}
+
+	aState.anims = append(aState.anims, anim)
+	aState.playing = false
+}
+
+var (
+	aState AnimRunState
+)
+
+func updateAnim(scene *scene.Scene) {
+	if len(aState.anims) == 0 {
+		cState.guiState.Pop()
+		aState.playing = false
+		return
+	}
+
+	anim := &aState.anims[0]
+
+	// new animation: create new node
+	if !aState.playing {
+		aState.playing = true
+		aState.start = time.Now()
+
+		node := ui.Node{Align: ui.AlignCenter, Surface: NewAttackSurface()}
+
+		if anim.actor == 0 {
+			node.X = 1280.0 / 2.0
+			node.Y = 200
+		} else {
+			node.X = 1280.0 / 2.0
+			node.Y = 720 - 200
+		}
+
+		cState.nodes = append(cState.nodes, node)
+	}
+
+	// play fixed 7 frame animation
+	ms := time.Since(aState.start).Milliseconds()
+	frame := int(ms / (1000 / 60))
+
+	// at end of the animation
+	if frame >= 7 {
+		// remove the animation node
+		cState.nodes = cState.nodes[0:2]
+		// dequeue the animation description
+		aState.anims = aState.anims[1:]
+	}
 }
 
 func updatePlayerInput(scene *scene.Scene) {
@@ -135,8 +189,8 @@ func updatePlayerInput(scene *scene.Scene) {
 	if ev != nil {
 		PlayerEvent = &ev
 		// go back to the tick state
-		state.guiState.Pop()
-		state.guiState.Push(Dialog)
+		cState.guiState.Pop()
+		cState.guiState.Push(Dialog)
 	}
 }
 
@@ -144,6 +198,6 @@ func updateDialog(scene *scene.Scene) {
 	println("hi from dialog")
 	dl := dialog.Update(scene, dialog.Dialogs["player_attack"])
 	if dl == nil {
-		state.guiState.Pop()
+		cState.guiState.Pop()
 	}
 }

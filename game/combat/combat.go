@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	state State
+	cState State
 )
 
 type State struct {
@@ -38,7 +38,7 @@ const (
 
 func (c *State) inc() {
 	c.cur += 1
-	c.cur %= len(state.actors)
+	c.cur %= len(cState.actors)
 }
 
 func (state *State) enemies() []scene.Combat {
@@ -78,34 +78,34 @@ func (state *State) handleStatus(scene *scene.Scene) bool {
 
 // Enter initializes the combat scene
 func Enter(scene *scene.Scene, enemy scene.Combat) {
-	state = State{}
-	state.guiState.Push(Tick)
+	cState = State{}
+	cState.guiState.Push(Tick)
 
-	state.actors[0] = scene.Player
-	state.actors[1] = enemy
+	cState.actors[0] = scene.Player
+	cState.actors[1] = enemy
 
 	// TODO: easier use?
-	state.nodes = append(state.nodes, ui.Node{
+	cState.nodes = append(cState.nodes, ui.Node{
 		X:       1280.0 / 2.0,
 		Y:       720.0 - 200.0,
 		Align:   ui.AlignCenter,
-		Surface: state.actors[0].Surface,
+		Surface: cState.actors[0].Surface,
 	})
 
-	state.nodes = append(state.nodes, ui.Node{
+	cState.nodes = append(cState.nodes, ui.Node{
 		X:       1280.0 / 2.0,
 		Y:       200.0,
 		Align:   ui.AlignCenter,
-		Surface: state.actors[1].Surface,
+		Surface: cState.actors[1].Surface,
 	})
 }
 
 func Update(scene *scene.Scene) error {
 	// see `state.go`
-	switch state.guiState.Top() {
+	switch cState.guiState.Top() {
 	case Tick:
 		updateTick(scene)
-	case Anim:
+	case AnimState:
 		updateAnim(scene)
 	case PlayerInput:
 		updatePlayerInput(scene)
@@ -120,7 +120,7 @@ func Update(scene *scene.Scene) error {
 
 // takeTurn returns an `Event` that an actor (`Combat`) invokes
 func takeTurn(actorIx int) Event {
-	actor := &state.actors[actorIx]
+	actor := &cState.actors[actorIx]
 
 	if actor.IsFriend {
 		// it's player. let the user select their action (see `state.go`)
@@ -139,7 +139,7 @@ func Draw(scene *scene.Scene, screen *ebiten.Image) {
 
 	updateAnims(scene, screen)
 
-	for _, node := range state.nodes {
+	for _, node := range cState.nodes {
 		node.Draw(screen)
 	}
 
@@ -150,7 +150,7 @@ func Draw(scene *scene.Scene, screen *ebiten.Image) {
 
 func updateAnims(scene_ *scene.Scene, screen *ebiten.Image) {
 	// the duck animation
-	s := state.nodes[0].Surface
+	s := cState.nodes[0].Surface
 
 	elapsed := time.Since(scene.StartTime)
 	n := elapsed.Milliseconds() / (1000 * 8 / 60)
@@ -170,15 +170,15 @@ func drawDebug(scene *scene.Scene, screen *ebiten.Image) {
 	message := fmt.Sprintf("FPS: %v\n", ebiten.CurrentFPS())
 
 	message += "State stack:"
-	for _, s := range state.guiState.states {
+	for _, s := range cState.guiState.states {
 		message += fmt.Sprintf(" %d", int(s))
 	}
 
 	message += "\n"
-	message += fmt.Sprintf("player: %#v", state.actors[0])
+	message += fmt.Sprintf("player: %#v", cState.actors[0])
 
 	message += "\n"
-	message += fmt.Sprintf("enemy: %#v", state.actors[1])
+	message += fmt.Sprintf("enemy: %#v", cState.actors[1])
 
 	text.Draw(screen, message, assets.DebugFont, 40, 340, color.White)
 }

@@ -7,6 +7,15 @@ import (
 // Event is a change to the combat world
 type Event interface {
 	run()
+	anim() Anim
+}
+
+// TODO: use generational index
+
+// Anim is always a melee attack animation
+type Anim struct {
+	actor  int
+	target int
 }
 
 type Attack struct {
@@ -17,9 +26,16 @@ type Attack struct {
 func (a Attack) run() {
 	fmt.Println("attack: ", a)
 
-	attacker := &state.actors[a.attacker]
-	target := &state.actors[a.target]
+	attacker := &cState.actors[a.attacker]
+	target := &cState.actors[a.target]
 
 	target.Hp -= attacker.Atk
 	// TODO: set up running animation
+}
+
+func (a Attack) anim() Anim {
+	return Anim{
+		actor:  a.attacker,
+		target: a.target,
+	}
 }
