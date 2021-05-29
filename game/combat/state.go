@@ -165,7 +165,7 @@ func updateAnim(scene *scene.Scene) {
 	ms := time.Since(aState.start).Milliseconds()
 	frame := int(ms / (1000 / 60))
 
-	if frame < n_frames {
+	if frame == 0 {
 		SwingSound.Rewind()
 		SwingSound.Play()
 	}
