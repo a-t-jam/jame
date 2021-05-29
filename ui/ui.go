@@ -53,10 +53,10 @@ func (n *Node) Draw(target *ebiten.Image) {
 
 // UvRect specifies sub region of a texture with normalized coordinates
 type UvRect struct {
-	x float64
-	y float64
-	w float64
-	h float64
+	X float64
+	Y float64
+	W float64
+	H float64
 }
 
 // Surface is an image surface (how to render)
@@ -73,7 +73,7 @@ func NewImageSurface(img *ebiten.Image) *Surface {
 	s := new(Surface)
 
 	s.Img = img
-	s.Uvs = append(s.Uvs, UvRect{x: 0.0, y: 0.0, w: 1.0, h: 1.0})
+	s.Uvs = append(s.Uvs, UvRect{X: 0.0, Y: 0.0, W: 1.0, H: 1.0})
 	s.Scale = [2]float64{1.0, 1.0}
 
 	return s
@@ -113,10 +113,10 @@ func (s *Surface) Frame(frame int) image.Image {
 	w, h := s.Img.Size()
 
 	rect := image.Rectangle{}
-	rect.Min.X = int(uv.x * float64(w))
-	rect.Min.Y = int(uv.y * float64(h))
-	rect.Max.X = rect.Min.X + int(uv.w*float64(w))
-	rect.Max.Y = rect.Min.Y + int(uv.h*float64(h))
+	rect.Min.X = int(uv.X * float64(w))
+	rect.Min.Y = int(uv.Y * float64(h))
+	rect.Max.X = rect.Min.X + int(uv.W*float64(w))
+	rect.Max.Y = rect.Min.Y + int(uv.H*float64(h))
 
 	return s.Img.SubImage(rect)
 }

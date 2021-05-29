@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"image/color"
 	"log"
+	"time"
 
 	"github.com/a-t-jam/jame/assets"
 	"github.com/a-t-jam/jame/game/dialog"
@@ -136,6 +137,8 @@ func takeTurn(actorIx int) Event {
 func Draw(scene *scene.Scene, screen *ebiten.Image) {
 	assets.DrawOcean1(screen)
 
+	updateAnims(scene, screen)
+
 	for _, node := range state.nodes {
 		node.Draw(screen)
 	}
@@ -143,6 +146,24 @@ func Draw(scene *scene.Scene, screen *ebiten.Image) {
 	dialog.Draw(scene, screen)
 
 	drawDebug(scene, screen)
+}
+
+func updateAnims(scene_ *scene.Scene, screen *ebiten.Image) {
+	// the duck animation
+	s := state.nodes[0].Surface
+
+	elapsed := time.Since(scene.StartTime)
+	n := elapsed.Milliseconds() / (1000 * 8 / 60)
+
+	n_frames := len(s.Uvs)
+	n_pingpong := (n_frames)*2 - 1
+
+	frame := int(n) % n_pingpong
+	if frame >= n_frames {
+		frame -= n_frames
+	}
+
+	s.CurrentFrameIx = frame
 }
 
 func drawDebug(scene *scene.Scene, screen *ebiten.Image) {
@@ -160,14 +181,4 @@ func drawDebug(scene *scene.Scene, screen *ebiten.Image) {
 	message += fmt.Sprintf("enemy: %#v", state.actors[1])
 
 	text.Draw(screen, message, assets.DebugFont, 40, 340, color.White)
-}
-
-func drawCentered(screen *ebiten.Image, img *ebiten.Image, x float64, y float64) {
-	opts := ebiten.DrawImageOptions{}
-	opts.GeoM.Translate(x, y)
-
-	w, h := img.Size()
-	opts.GeoM.Translate(-float64(w)/2.0, -float64(h)/2.0)
-
-	screen.DrawImage(img, &opts)
 }

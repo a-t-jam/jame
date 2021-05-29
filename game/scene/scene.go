@@ -2,7 +2,16 @@ package scene
 
 import (
 	"github.com/a-t-jam/jame/ui"
+	"time"
 )
+
+var (
+	StartTime time.Time
+)
+
+func init() {
+	StartTime = time.Now()
+}
 
 type Combat struct {
 	// GUI
