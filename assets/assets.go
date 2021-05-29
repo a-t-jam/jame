@@ -13,14 +13,17 @@ import (
 	"golang.org/x/image/font/opentype"
 
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/audio"
+	"github.com/hajimehoshi/ebiten/v2/audio/wav"
 )
 
 //go:embed winddorf
-//go:embed duck pipoya sprites
+//go:embed duck pipoya sprites se
 //go:embed bg fonts
 var Data embed.FS
 
 var (
+	Audio      = audio.NewContext(48000)
 	BattleDuck *ebiten.Image
 	Bg         *ebiten.Image
 	Ocean1     *ebiten.Image
@@ -70,7 +73,11 @@ func LoadImg(path string) *ebiten.Image {
 }
 
 func LoadFont(path string, dpi float64, size float64) font.Face {
-	fontBytes, err := Data.ReadFile("fonts/8bitOperatorPlus8-Regular.ttf")
+	fontBytes, err := Data.ReadFile(path)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	tt, err := opentype.Parse(fontBytes)
 	if err != nil {
 		log.Fatal(err)
@@ -86,4 +93,23 @@ func LoadFont(path string, dpi float64, size float64) font.Face {
 	}
 
 	return font_face
+}
+
+func LoadWav(path string) *audio.Player {
+	data, err := Data.ReadFile(path)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	decoded, err := wav.Decode(Audio, bytes.NewReader(data))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	player, err := audio.NewPlayer(Audio, decoded)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return player
 }
