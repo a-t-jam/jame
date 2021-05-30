@@ -18,5 +18,7 @@ func init() {
 }
 
 func NewAttackSurface() *ui.Surface {
-	return ui.NewAnimSurface(AttackTex, 8, 1)
+	s := ui.NewAnimSurface(AttackTex, 8, 1)
+	s.Scale = [2]float64{2.0, 2.0}
+	return s
 }

@@ -1,3 +1,5 @@
+// ev (event) is for separating GUI from the internal state progress
+
 package combat
 
 import (
