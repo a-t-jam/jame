@@ -8,7 +8,6 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
 
-	"github.com/a-t-jam/jame/game/dialog"
 	"github.com/a-t-jam/jame/game/scene"
 	"github.com/a-t-jam/jame/ui"
 )
@@ -209,15 +208,13 @@ func updatePlayerInput(scene *scene.Scene) {
 		PlayerEvent = &ev
 		// go back to the tick state
 		cState.guiState.Pop()
-		// TODO: do we need it?
-		cState.guiState.Push(Dialog)
 	}
 }
 
-func updateDialog(scene *scene.Scene) {
-	println("hi from dialog")
-	dl := dialog.Update(scene, dialog.Dialogs["player_attack"])
-	if dl == nil {
-		cState.guiState.Pop()
-	}
-}
+//func updateDialog(scene *scene.Scene) {
+//	println("hi from dialog")
+//	dl := dialog.Update(scene, dialog.Dialogs["player_attack"])
+//	if dl == nil {
+//		cState.guiState.Pop()
+//	}
+//}

@@ -9,18 +9,26 @@ import (
 	"github.com/hajimehoshi/ebiten/v2/text"
 
 	"github.com/a-t-jam/jame/assets"
+	"github.com/a-t-jam/jame/game/dialog"
 	"github.com/a-t-jam/jame/game/scene"
+	"github.com/a-t-jam/jame/ui"
 )
 
 var (
 	playerSprite *ebiten.Image
+	playerNode   ui.Node
+	playerPos    int
 )
 
 func init() {
-	playerSprite = assets.LoadImg("sprites/amg1_rt2.png")
+	playerPos = 0
+	playerNode = ui.Node{X: 1280.0 / 2.0, Y: 720.0 - 200.0, Align: ui.AlignCenter, Surface: Surface}
 }
 
 func Update(scene *scene.Scene) error {
+	if playerPos == 0 {
+		return dialog.Update(scene, dialog.Dialogs["moving_instruction"])
+	}
 	return nil
 }
 
@@ -29,11 +37,8 @@ func Draw(scene *scene.Scene, screen *ebiten.Image) {
 
 	assets.DrawOcean1(screen)
 
-	// sprite
-	op := ebiten.DrawImageOptions{}
-	op.GeoM.Translate(50, 100)
-	op.GeoM.Scale(2, 2)
-	screen.DrawImage(playerSprite, &op)
+	playerNode.Draw(screen)
+	dialog.Draw(scene, screen)
 
 	debugDraw(scene, screen)
 }

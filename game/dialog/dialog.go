@@ -36,5 +36,5 @@ func Update(scene *scene.Scene, dialogInput []string) error {
 }
 
 func Draw(scene *scene.Scene, screen *ebiten.Image) {
-	text.Draw(screen, displayDialog, assets.PixelFont, 40, 40, color.White)
+	text.Draw(screen, displayDialog, assets.PixelFont, 450, 50, color.White)
 }

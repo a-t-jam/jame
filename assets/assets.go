@@ -25,6 +25,7 @@ var Data embed.FS
 var (
 	Audio      = audio.NewContext(48000)
 	BattleDuck *ebiten.Image
+	TravelDuck *ebiten.Image
 	Bg         *ebiten.Image
 	Ocean1     *ebiten.Image
 	Ocean2     *ebiten.Image
@@ -34,6 +35,7 @@ var (
 
 func init() {
 	BattleDuck = LoadImg("duck/N-wait.png")
+	TravelDuck = LoadImg("duck/N-walk.png")
 	Bg = LoadImg("winddorf/kyoto.jpg")
 	Ocean1 = LoadImg("bg/ocean1.jpg")
 	Ocean2 = LoadImg("bg/ocean2.jpg")

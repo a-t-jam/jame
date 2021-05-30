@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/a-t-jam/jame/assets"
-	"github.com/a-t-jam/jame/game/dialog"
 	"github.com/a-t-jam/jame/game/scene"
 	"github.com/a-t-jam/jame/ui"
 
@@ -111,8 +110,8 @@ func Update(scene *scene.Scene) error {
 		updateAnim(scene)
 	case PlayerInput:
 		updatePlayerInput(scene)
-	case Dialog:
-		updateDialog(scene)
+		//	case Dialog:
+		//		updateDialog(scene)
 	default:
 		log.Fatalln("wrong combat state")
 	}
@@ -145,7 +144,7 @@ func Draw(scene *scene.Scene, screen *ebiten.Image) {
 		node.Draw(screen)
 	}
 
-	dialog.Draw(scene, screen)
+	//	dialog.Draw(scene, screen)
 
 	drawDebug(scene, screen)
 }
