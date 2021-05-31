@@ -33,7 +33,6 @@ func init() {
 
 func updateAnim() {
 	// update anim here
-	print(playerPos)
 	if playerNode.Surface.CurrentFrameIx == 3 {
 		isWalking = false
 	}

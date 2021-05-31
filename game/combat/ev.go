@@ -32,7 +32,6 @@ func (a Attack) run() {
 	target := &cState.actors[a.target]
 
 	target.Hp -= attacker.Atk
-	// TODO: set up running animation
 }
 
 func (a Attack) anim() Anim {

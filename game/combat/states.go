@@ -177,6 +177,15 @@ func updateAnim(scene *scene.Scene) {
 		node.Surface.CurrentFrameIx = frame
 	}
 
+	if frame == 5 {
+		// play death sound
+		target := &cState.actors[anim.target]
+		if target.Hp <= 0 {
+			assets.DeathSound.Rewind()
+			assets.DeathSound.Play()
+		}
+	}
+
 	// at end of the animation
 	if frame >= n_frames {
 		// remove the node for the animation

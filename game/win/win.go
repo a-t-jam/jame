@@ -21,7 +21,7 @@ func Update(scene_ *scene.Scene) error {
 func Draw(scene_ *scene.Scene, screen *ebiten.Image) {
 	assets.DrawOcean2(screen)
 
-	mes := "Duck enter the surface!\nThank you for playing <3"
+	mes := "Duck reaches the surface!\nThank you for playing <3"
 	face := assets.PixelFont
 	x := 1280 / 2
 	y := 720 / 2
