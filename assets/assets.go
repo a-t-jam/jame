@@ -32,6 +32,7 @@ var (
 
 var (
 	BattleDuck *ebiten.Image
+	Bubble     *audio.Player
 	TravelDuck *ebiten.Image
 	Ocean1     *ebiten.Image
 	Ocean2     *ebiten.Image
@@ -39,9 +40,11 @@ var (
 
 func init() {
 	BattleDuck = LoadImg("duck/N-wait.png")
+	Bubble = LoadWav("se/onjin/bubble_04.wav")
 	TravelDuck = LoadImg("duck/N-walk.png")
 	Ocean1 = LoadImg("bg/ocean1.jpg")
 	Ocean2 = LoadImg("bg/ocean2.jpg")
+
 	PixelFont = LoadFont("fonts/8bitOperatorPlus8-Regular.ttf", 72, 24)
 	DebugFont = LoadFont("fonts/8bitOperatorPlus8-Regular.ttf", 72, 14)
 }

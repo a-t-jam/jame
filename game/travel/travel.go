@@ -46,6 +46,8 @@ func Update(scene_ *scene.Scene) error {
 		print("space pressed")
 		playerPos += 1
 		isWalking = true
+		assets.Bubble.Rewind()
+		assets.Bubble.Play()
 		return dialog.Update(scene_, dialog.Dialogs["on_move_forward"])
 	}
 
