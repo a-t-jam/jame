@@ -16,10 +16,6 @@ const (
 	AlignCenter
 )
 
-type SpriteSheet struct {
-	sprites *[]*ebiten.Image
-}
-
 type Node struct {
 	X float64
 	Y float64
