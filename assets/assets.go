@@ -53,13 +53,11 @@ var (
 
 func DrawOcean1(screen *ebiten.Image) {
 	opts := ebiten.DrawImageOptions{}
-	opts.GeoM.Scale(1.0/4.0, 1.0/4.0)
 	screen.DrawImage(Ocean1, &opts)
 }
 
 func DrawOcean2(screen *ebiten.Image) {
 	opts := ebiten.DrawImageOptions{}
-	opts.GeoM.Scale(1.0/3.0, 1.0/3.0)
 	screen.DrawImage(Ocean2, &opts)
 }
 
