@@ -48,7 +48,8 @@ func Update(scene_ *scene.Scene) error {
 		return nil
 	}
 
-	if inpututil.IsKeyJustPressed(ebiten.KeySpace) {
+	if inpututil.IsKeyJustPressed(ebiten.KeySpace) ||
+		inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) {
 		scene.PlayerPos += 1
 
 		isWalking = true

@@ -202,11 +202,9 @@ func updateAnim(scene *scene.Scene) {
 
 func updatePlayerInput(scene *scene.Scene) {
 	var ev Event
-	//print("get player input")
 
-	// TODO: use GUI
-	// FIXME: for now I'm doing a space button to test, must be done with button GUI
-	if inpututil.IsKeyJustPressed(ebiten.KeySpace) {
+	if inpututil.IsKeyJustPressed(ebiten.KeySpace) ||
+		inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) {
 		println("Player attacks")
 		ev = &Attack{
 			attacker: 0, // 0 == player

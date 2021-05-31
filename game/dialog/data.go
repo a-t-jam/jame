@@ -9,10 +9,10 @@ var (
 			"Player attacks",
 		},
 		"moving_instruction": {
-			"Press Space to move forward",
+			"Click or press Space to move forward",
 		},
 		"on_move_forward": {
-			"You move one step forward",
+			"Duck moves one step forward",
 		},
 		"empty": {
 			"",
