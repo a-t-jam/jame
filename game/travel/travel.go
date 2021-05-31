@@ -17,12 +17,10 @@ import (
 var (
 	playerSprite *ebiten.Image
 	playerNode   ui.Node
-	playerPos    int
 	isWalking    bool
 )
 
 func init() {
-	playerPos = 0
 	playerNode = ui.Node{
 		X:       1280.0 / 2.0,
 		Y:       720.0 - 200.0,
@@ -44,14 +42,14 @@ func Update(scene_ *scene.Scene) error {
 		return nil
 	}
 
-	if playerPos == 16 {
+	if scene.PlayerPos == 16 {
 		scene_.State = scene.WinState
 		win.Enter(scene_)
 		return nil
 	}
 
 	if inpututil.IsKeyJustPressed(ebiten.KeySpace) {
-		playerPos += 1
+		scene.PlayerPos += 1
 
 		isWalking = true
 		assets.Bubble.Rewind()
@@ -60,13 +58,13 @@ func Update(scene_ *scene.Scene) error {
 		return dialog.Update(scene_, dialog.Dialogs["on_move_forward"])
 	}
 
-	if playerPos == 0 {
+	if scene.PlayerPos == 0 {
 		return dialog.Update(scene_, dialog.Dialogs["moving_instruction"])
 	}
 
-	if playerPos%5 == 0 {
+	if scene.PlayerPos%5 == 0 {
 		// FIXME: hack to move forward AFTER the battle
-		playerPos += 1
+		scene.PlayerPos += 1
 
 		// enter combat scene
 		scene_.State = scene.CombatState
@@ -79,16 +77,17 @@ func Update(scene_ *scene.Scene) error {
 	return dialog.Update(scene_, dialog.Dialogs["on_move_forward"])
 }
 
-func Draw(scene *scene.Scene, screen *ebiten.Image) {
+func Draw(scene_ *scene.Scene, screen *ebiten.Image) {
 	assets.DrawOcean1(screen)
 
 	playerNode.Draw(screen)
 
 	if isWalking {
-		updateAnims(scene, screen)
+		updateAnims(scene_, screen)
 	}
-	dialog.Draw(scene, screen)
+	dialog.Draw(scene_, screen)
 
+	scene.DrawPlayerPos(screen)
 	// debugDraw(scene, screen)
 }
 

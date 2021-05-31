@@ -21,8 +21,8 @@ func Update(scene_ *scene.Scene) error {
 func Draw(scene_ *scene.Scene, screen *ebiten.Image) {
 	assets.DrawOcean2(screen)
 
-	mes := "Duck reaches the surface!\nThank you for playing <3"
-	face := assets.PixelFont
+	mes := ">>> Duck reaches the surface!\nThank you for playing <3"
+	face := assets.LargePixelFont
 	x := 1280 / 2
 	y := 720 / 2
 
@@ -30,6 +30,6 @@ func Draw(scene_ *scene.Scene, screen *ebiten.Image) {
 	x -= (bounds.Max.X - bounds.Min.X) / 2.0
 	y -= (bounds.Max.Y - bounds.Min.Y) / 2.0
 
-	text.Draw(screen, mes, assets.PixelFont, x+4, y+4, color.Gray16{Y: 32})
+	text.Draw(screen, mes, face, x+4, y+4, color.Gray16{Y: 32})
 	text.Draw(screen, mes, face, x, y, color.White)
 }

@@ -1,12 +1,19 @@
 package scene
 
 import (
+	"fmt"
+	"image/color"
 	"time"
 
-	_ "embed"
+	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/text"
 
 	"github.com/a-t-jam/jame/assets"
 	"github.com/a-t-jam/jame/ui"
+)
+
+var (
+	PlayerPos int
 )
 
 var (
@@ -52,4 +59,16 @@ type Scene struct {
 	Len    uint
 	Pos    uint
 	Player Combat
+}
+
+func DrawPlayerPos(screen *ebiten.Image) {
+	// draw the distance
+	mes := fmt.Sprintf("%d steps away from the surface", 15-PlayerPos)
+	face := assets.PixelFont
+	x := 50
+	y := 50
+
+	text.Draw(screen, mes, face, x+4, y+4, color.Gray16{Y: 32})
+	text.Draw(screen, mes, face, x, y, color.White)
+
 }
