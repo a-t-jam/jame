@@ -36,5 +36,15 @@ func Update(scene *scene.Scene, dialogInput []string) error {
 }
 
 func Draw(scene *scene.Scene, screen *ebiten.Image) {
-	text.Draw(screen, displayDialog, assets.PixelFont, 450, 50, color.White)
+	mes := displayDialog
+	face := assets.PixelFont
+	x := 1280 / 2
+	y := 200
+
+	bounds := text.BoundString(face, mes)
+	x -= (bounds.Max.X - bounds.Min.X) / 2.0
+	y -= (bounds.Max.Y - bounds.Min.Y) / 2.0
+
+	text.Draw(screen, mes, assets.PixelFont, x+4, y+4, color.Gray16{Y: 32})
+	text.Draw(screen, mes, assets.PixelFont, x, y, color.White)
 }

@@ -2,7 +2,6 @@ package combat
 
 import (
 	"fmt"
-	"image/color"
 	"log"
 	"time"
 
@@ -11,7 +10,6 @@ import (
 	"github.com/a-t-jam/jame/ui"
 
 	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/hajimehoshi/ebiten/v2/text"
 )
 
 var (
@@ -163,42 +161,42 @@ func updateAnims(scene_ *scene.Scene, screen *ebiten.Image) {
 	s.CurrentFrameIx = frame
 }
 
-func drawDebug(scene *scene.Scene, screen *ebiten.Image) {
-	message := fmt.Sprintf("FPS: %v\n", ebiten.CurrentFPS())
-
-	message += "\n"
-	message += "State stack:"
-	for _, s := range cState.guiState.states {
-		message += fmt.Sprintf(" %d", int(s))
-	}
-
-	message += "\n"
-	message += "UI nodes:"
-	for _, n := range cState.nodes {
-		message += "\n"
-		message += fmt.Sprintf("  - %#v", n)
-	}
-
-	message += "\n"
-	message += "UI surfaces:"
-	for _, n := range cState.nodes {
-		s := n.Surface
-		message += "\n"
-		message += fmt.Sprintf("  - %#v", s)
-	}
-
-	message += "\n"
-	message += "anims:"
-	for _, a := range aState.anims {
-		message += fmt.Sprintf("\n  - %#v", a)
-	}
-
-	message += "\n"
-	message += "Actors:"
-	for _, a := range cState.actors {
-		message += "\n"
-		message += fmt.Sprintf("  - %#v", a)
-	}
-
-	text.Draw(screen, message, assets.DebugFont, 40, 340, color.White)
-}
+// func drawDebug(scene *scene.Scene, screen *ebiten.Image) {
+// 	message := fmt.Sprintf("FPS: %v\n", ebiten.CurrentFPS())
+//
+// 	message += "\n"
+// 	message += "State stack:"
+// 	for _, s := range cState.guiState.states {
+// 		message += fmt.Sprintf(" %d", int(s))
+// 	}
+//
+// 	message += "\n"
+// 	message += "UI nodes:"
+// 	for _, n := range cState.nodes {
+// 		message += "\n"
+// 		message += fmt.Sprintf("  - %#v", n)
+// 	}
+//
+// 	message += "\n"
+// 	message += "UI surfaces:"
+// 	for _, n := range cState.nodes {
+// 		s := n.Surface
+// 		message += "\n"
+// 		message += fmt.Sprintf("  - %#v", s)
+// 	}
+//
+// 	message += "\n"
+// 	message += "anims:"
+// 	for _, a := range aState.anims {
+// 		message += fmt.Sprintf("\n  - %#v", a)
+// 	}
+//
+// 	message += "\n"
+// 	message += "Actors:"
+// 	for _, a := range cState.actors {
+// 		message += "\n"
+// 		message += fmt.Sprintf("  - %#v", a)
+// 	}
+//
+// 	text.Draw(screen, message, assets.DebugFont, 40, 340, color.White)
+// }

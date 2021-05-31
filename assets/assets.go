@@ -27,8 +27,8 @@ var (
 )
 
 var (
-	PixelFont font.Face = LoadFont("fonts/8bitOperatorPlus8-Regular.ttf", 72, 24)
-	DebugFont font.Face = LoadFont("fonts/8bitOperatorPlus8-Regular.ttf", 72, 14)
+	PixelFont font.Face = LoadFont("fonts/8bitOperatorPlus8-Regular.ttf", 72, 48)
+	// DebugFont font.Face = LoadFont("fonts/8bitOperatorPlus8-Regular.ttf", 72, 14)
 )
 
 var (
