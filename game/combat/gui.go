@@ -8,14 +8,9 @@ import (
 )
 
 var (
-	AttackTex  *ebiten.Image
-	SwingSound *audio.Player
+	AttackTex  *ebiten.Image = assets.LoadImg("pipoya/attack.png")
+	SwingSound *audio.Player = assets.LoadWav("se/match/swing.wav")
 )
-
-func init() {
-	AttackTex = assets.LoadImg("pipoya/attack.png")
-	SwingSound = assets.LoadWav("se/match/swing.wav")
-}
 
 func NewAttackSurface() *ui.Surface {
 	s := ui.NewAnimSurface(AttackTex, 8, 1)

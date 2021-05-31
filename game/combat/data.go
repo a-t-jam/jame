@@ -14,6 +14,7 @@ import (
 var (
 	DefaultPlayer scene.Combat
 	Enemy1        scene.Combat
+	Enemy1Img     = assets.LoadImg("sprites/sotrak_rewop.png")
 )
 
 func init() {
@@ -30,7 +31,7 @@ func init() {
 	}
 
 	Enemy1 = scene.Combat{
-		Surface:  ui.NewImageSurface(assets.LoadImg("sprites/sotrak_rewop.png")),
+		Surface:  ui.NewImageSurface(Enemy1Img),
 		IsFriend: false,
 		MaxHp:    100,
 		Hp:       100,

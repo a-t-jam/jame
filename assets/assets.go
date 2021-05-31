@@ -26,28 +26,17 @@ var (
 )
 
 var (
-	PixelFont font.Face
-	DebugFont font.Face
+	PixelFont font.Face = LoadFont("fonts/8bitOperatorPlus8-Regular.ttf", 72, 24)
+	DebugFont font.Face = LoadFont("fonts/8bitOperatorPlus8-Regular.ttf", 72, 14)
 )
 
 var (
-	BattleDuck *ebiten.Image
-	Bubble     *audio.Player
-	TravelDuck *ebiten.Image
-	Ocean1     *ebiten.Image
-	Ocean2     *ebiten.Image
+	BattleDuck *ebiten.Image = LoadImg("duck/N-wait.png")
+	Bubble     *audio.Player = LoadWav("se/onjin/bubble_04.wav")
+	TravelDuck *ebiten.Image = LoadImg("duck/N-walk.png")
+	Ocean1     *ebiten.Image = LoadImg("bg/ocean1.jpg")
+	Ocean2     *ebiten.Image = LoadImg("bg/ocean2.jpg")
 )
-
-func init() {
-	BattleDuck = LoadImg("duck/N-wait.png")
-	Bubble = LoadWav("se/onjin/bubble_04.wav")
-	TravelDuck = LoadImg("duck/N-walk.png")
-	Ocean1 = LoadImg("bg/ocean1.jpg")
-	Ocean2 = LoadImg("bg/ocean2.jpg")
-
-	PixelFont = LoadFont("fonts/8bitOperatorPlus8-Regular.ttf", 72, 24)
-	DebugFont = LoadFont("fonts/8bitOperatorPlus8-Regular.ttf", 72, 14)
-}
 
 func DrawOcean1(screen *ebiten.Image) {
 	opts := ebiten.DrawImageOptions{}
