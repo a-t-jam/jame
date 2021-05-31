@@ -1,16 +1,24 @@
 package scene
 
 import (
-	"github.com/a-t-jam/jame/ui"
 	"time"
+
+	_ "embed"
+
+	"github.com/a-t-jam/jame/assets"
+	"github.com/a-t-jam/jame/ui"
 )
 
 var (
-	StartTime time.Time
+	StartTime       time.Time
+	WalkDuckSurface *ui.Surface
 )
 
 func init() {
 	StartTime = time.Now()
+
+	WalkDuckSurface = ui.NewAnimSurface(assets.TravelDuck, 4, 1)
+	WalkDuckSurface.Scale = [2]float64{2.0, 2.0}
 }
 
 type Combat struct {
@@ -37,6 +45,7 @@ const (
 	TravelState = iota
 	CombatState
 	DialogState
+	WinState
 )
 
 type Scene struct {

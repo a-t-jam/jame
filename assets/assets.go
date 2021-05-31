@@ -32,8 +32,8 @@ var (
 
 var (
 	BattleDuck *ebiten.Image = LoadImg("duck/N-wait.png")
-	Bubble     *audio.Player = LoadWav("se/onjin/bubble_04.wav")
 	TravelDuck *ebiten.Image = LoadImg("duck/N-walk.png")
+	Bubble     *audio.Player = LoadWav("se/onjin/bubble_04.wav")
 	Ocean1     *ebiten.Image = LoadImg("bg/ocean1.jpg")
 	Ocean2     *ebiten.Image = LoadImg("bg/ocean2.jpg")
 )

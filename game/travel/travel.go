@@ -25,7 +25,12 @@ var (
 
 func init() {
 	playerPos = 0
-	playerNode = ui.Node{X: 1280.0 / 2.0, Y: 720.0 - 200.0, Align: ui.AlignCenter, Surface: Surface}
+	playerNode = ui.Node{
+		X:       1280.0 / 2.0,
+		Y:       720.0 - 200.0,
+		Align:   ui.AlignCenter,
+		Surface: scene.WalkDuckSurface,
+	}
 }
 
 func updateAnim() {
@@ -42,12 +47,18 @@ func Update(scene_ *scene.Scene) error {
 		return nil
 	}
 
+	if playerPos == 16 {
+		scene_.State = scene.WinState
+		return nil
+	}
+
 	if inpututil.IsKeyJustPressed(ebiten.KeySpace) {
-		print("space pressed")
 		playerPos += 1
+
 		isWalking = true
 		assets.Bubble.Rewind()
 		assets.Bubble.Play()
+
 		return dialog.Update(scene_, dialog.Dialogs["on_move_forward"])
 	}
 
@@ -58,15 +69,16 @@ func Update(scene_ *scene.Scene) error {
 	if playerPos%5 == 0 {
 		// FIXME: hack to move forward AFTER the battle
 		playerPos += 1
+
 		// enter combat scene
 		scene_.State = scene.CombatState
 		// TODO: with corresponding enemy for this positiion
 		combat.Enter(scene_, combat.Enemy1)
+
 		return nil
 	}
 
 	return dialog.Update(scene_, dialog.Dialogs["on_move_forward"])
-
 }
 
 func Draw(scene *scene.Scene, screen *ebiten.Image) {
