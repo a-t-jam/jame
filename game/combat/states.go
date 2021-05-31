@@ -204,7 +204,8 @@ func updatePlayerInput(scene *scene.Scene) {
 	var ev Event
 
 	if inpututil.IsKeyJustPressed(ebiten.KeySpace) ||
-		inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) {
+		inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) ||
+		len(inpututil.JustPressedTouchIDs()) > 0 {
 		println("Player attacks")
 		ev = &Attack{
 			attacker: 0, // 0 == player
