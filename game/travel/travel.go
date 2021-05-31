@@ -3,9 +3,10 @@ package travel
 import (
 	"fmt"
 	"image/color"
+	"time"
 
 	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
+	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	"github.com/hajimehoshi/ebiten/v2/text"
 
 	"github.com/a-t-jam/jame/assets"
@@ -18,6 +19,7 @@ var (
 	playerSprite *ebiten.Image
 	playerNode   ui.Node
 	playerPos    int
+	isWalking    bool
 )
 
 func init() {
@@ -25,19 +27,40 @@ func init() {
 	playerNode = ui.Node{X: 1280.0 / 2.0, Y: 720.0 - 200.0, Align: ui.AlignCenter, Surface: Surface}
 }
 
+func updateAnim() {
+	// update anim here
+	print(playerPos)
+	if playerNode.Surface.CurrentFrameIx == 3 {
+		isWalking = false
+	}
+}
+
 func Update(scene *scene.Scene) error {
-	if playerPos == 0 {
+	if isWalking {
+		updateAnim()
+	} else if playerPos == 5 {
+		print("need to handle change state to combat")
+	} else if inpututil.IsKeyJustReleased(ebiten.KeySpace) {
+		print("space pressed")
+		playerPos += 1
+		isWalking = true
+		return dialog.Update(scene, dialog.Dialogs["on_move_forward"])
+	} else if playerPos == 0 {
 		return dialog.Update(scene, dialog.Dialogs["moving_instruction"])
+	} else {
+		return dialog.Update(scene, dialog.Dialogs["on_move_forward"])
 	}
 	return nil
 }
 
 func Draw(scene *scene.Scene, screen *ebiten.Image) {
-	ebitenutil.DebugPrint(screen, "Hello, World!")
-
 	assets.DrawOcean1(screen)
 
 	playerNode.Draw(screen)
+
+	if isWalking {
+		updateAnims(scene, screen)
+	}
 	dialog.Draw(scene, screen)
 
 	debugDraw(scene, screen)
@@ -46,4 +69,22 @@ func Draw(scene *scene.Scene, screen *ebiten.Image) {
 func debugDraw(scene *scene.Scene, screen *ebiten.Image) {
 	message := fmt.Sprintf("FPS: %v", ebiten.CurrentFPS())
 	text.Draw(screen, message, assets.PixelFont, 100.0, 300.0, color.White)
+}
+
+func updateAnims(scene_ *scene.Scene, screen *ebiten.Image) {
+	// the duck animation
+	s := playerNode.Surface
+
+	elapsed := time.Since(scene.StartTime)
+	n := elapsed.Milliseconds() / (1000 * 8 / 60)
+
+	n_frames := len(s.Uvs)
+	n_pingpong := (n_frames)*2 - 1
+
+	frame := int(n) % n_pingpong
+	if frame >= n_frames {
+		frame -= n_frames
+	}
+
+	s.CurrentFrameIx = frame
 }
