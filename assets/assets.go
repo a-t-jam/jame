@@ -14,6 +14,7 @@ import (
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/audio"
+	"github.com/hajimehoshi/ebiten/v2/audio/mp3"
 	"github.com/hajimehoshi/ebiten/v2/audio/wav"
 )
 
@@ -34,8 +35,14 @@ var (
 	BattleDuck *ebiten.Image = LoadImg("duck/N-wait.png")
 	TravelDuck *ebiten.Image = LoadImg("duck/N-walk.png")
 	Bubble     *audio.Player = LoadWav("se/onjin/bubble_04.wav")
-	Ocean1     *ebiten.Image = LoadImg("bg/ocean1.jpg")
-	Ocean2     *ebiten.Image = LoadImg("bg/ocean2.jpg")
+	AttackTex  *ebiten.Image = LoadImg("pipoya/attack.png")
+	SwingSound *audio.Player = LoadWav("se/match/swing.wav")
+	WinSound   *audio.Player = LoadMp3("se/onjin/win.mp3")
+)
+
+var (
+	Ocean1 *ebiten.Image = LoadImg("bg/ocean1.jpg")
+	Ocean2 *ebiten.Image = LoadImg("bg/ocean2.jpg")
 )
 
 func DrawOcean1(screen *ebiten.Image) {
@@ -99,6 +106,25 @@ func LoadWav(path string) *audio.Player {
 	}
 
 	decoded, err := wav.Decode(Audio, bytes.NewReader(data))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	player, err := audio.NewPlayer(Audio, decoded)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return player
+}
+
+func LoadMp3(path string) *audio.Player {
+	data, err := Data.ReadFile(path)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	decoded, err := mp3.Decode(Audio, bytes.NewReader(data))
 	if err != nil {
 		log.Fatal(err)
 	}

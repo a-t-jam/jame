@@ -8,6 +8,7 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
 
+	"github.com/a-t-jam/jame/assets"
 	"github.com/a-t-jam/jame/game/scene"
 	"github.com/a-t-jam/jame/ui"
 )
@@ -167,8 +168,8 @@ func updateAnim(scene *scene.Scene) {
 	frame := int(ms / (1000 / 60))
 
 	if frame == 0 {
-		SwingSound.Rewind()
-		SwingSound.Play()
+		assets.SwingSound.Rewind()
+		assets.SwingSound.Play()
 	}
 
 	if frame < n_frames {

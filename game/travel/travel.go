@@ -13,6 +13,7 @@ import (
 	"github.com/a-t-jam/jame/game/combat"
 	"github.com/a-t-jam/jame/game/dialog"
 	"github.com/a-t-jam/jame/game/scene"
+	"github.com/a-t-jam/jame/game/win"
 	"github.com/a-t-jam/jame/ui"
 )
 
@@ -49,6 +50,7 @@ func Update(scene_ *scene.Scene) error {
 
 	if playerPos == 16 {
 		scene_.State = scene.WinState
+		win.Enter(scene_)
 		return nil
 	}
 

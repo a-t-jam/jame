@@ -110,8 +110,6 @@ func Update(scene *scene.Scene) error {
 		updateAnim(scene)
 	case PlayerInput:
 		updatePlayerInput(scene)
-		//	case Dialog:
-		//		updateDialog(scene)
 	default:
 		log.Fatalln("wrong combat state")
 	}
@@ -143,8 +141,6 @@ func Draw(scene *scene.Scene, screen *ebiten.Image) {
 	for _, node := range cState.nodes {
 		node.Draw(screen)
 	}
-
-	//	dialog.Draw(scene, screen)
 
 	drawDebug(scene, screen)
 }

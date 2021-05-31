@@ -44,7 +44,6 @@ type GameState = int
 const (
 	TravelState = iota
 	CombatState
-	DialogState
 	WinState
 )
 
