@@ -38,10 +38,12 @@ var (
 	Bubble     *audio.Player = LoadWav("se/onjin/bubble_04.wav")
 	AttackTex  *ebiten.Image = LoadImg("pipoya/attack.png")
 )
+
 var (
-	DeathSound *audio.Player = LoadWav("se/match/death.wav")
-	SwingSound *audio.Player = LoadWav("se/match/swing.wav")
-	WinSound   *audio.Player = LoadMp3("se/onjin/win.mp3")
+	EncounterSound *audio.Player = LoadMp3("se/onjin/encounter.mp3")
+	DeathSound     *audio.Player = LoadWav("se/match/death.wav")
+	SwingSound     *audio.Player = LoadWav("se/match/swing.wav")
+	WinSound       *audio.Player = LoadMp3("se/onjin/win.mp3")
 )
 
 var (

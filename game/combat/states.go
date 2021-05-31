@@ -73,7 +73,7 @@ func runAction(action Event) {
 	pushAnim(action.anim())
 }
 
-func updateTick(s *scene.Scene) {
+func updateTick(scene_ *scene.Scene) {
 	// when we selected player event in `updatePlayerInput`
 	if PlayerEvent != nil {
 		runAction(*PlayerEvent)
@@ -83,8 +83,8 @@ func updateTick(s *scene.Scene) {
 	}
 
 	for {
-		if cState.handleStatus(s) {
-			s.State = scene.TravelState
+		if cState.handleStatus(scene_) {
+			leaveCombatScene(scene_)
 			return
 		}
 

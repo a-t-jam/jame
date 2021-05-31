@@ -68,7 +68,6 @@ func Update(scene_ *scene.Scene) error {
 
 		// enter combat scene
 		scene_.State = scene.CombatState
-		// TODO: with corresponding enemy for this positiion
 		combat.Enter(scene_, combat.Enemy1)
 
 		return nil
@@ -88,6 +87,7 @@ func Draw(scene_ *scene.Scene, screen *ebiten.Image) {
 	dialog.Draw(scene_, screen)
 
 	scene.DrawPlayerPos(screen)
+	scene.DrawPlayerIq(screen)
 	// debugDraw(scene, screen)
 }
 

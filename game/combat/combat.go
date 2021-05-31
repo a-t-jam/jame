@@ -97,6 +97,14 @@ func Enter(scene *scene.Scene, enemy scene.Combat) {
 	})
 
 	aState = AnimRunState{}
+
+	assets.EncounterSound.Rewind()
+	assets.EncounterSound.Play()
+}
+
+func leaveCombatScene(scene_ *scene.Scene) {
+	scene_.State = scene.TravelState
+	scene_.Player = cState.actors[0]
 }
 
 func Update(scene *scene.Scene) error {
@@ -131,14 +139,16 @@ func takeTurn(actorIx int) Event {
 	}
 }
 
-func Draw(scene *scene.Scene, screen *ebiten.Image) {
+func Draw(scene_ *scene.Scene, screen *ebiten.Image) {
 	assets.DrawOcean1(screen)
 
-	updateAnims(scene, screen)
+	updateAnims(scene_, screen)
 
 	for _, node := range cState.nodes {
 		node.Draw(screen)
 	}
+
+	scene.DrawPlayerIq(screen)
 
 	// drawDebug(scene, screen)
 }

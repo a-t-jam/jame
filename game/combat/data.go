@@ -24,8 +24,8 @@ func init() {
 	DefaultPlayer = scene.Combat{
 		Surface:  surface,
 		IsFriend: true,
-		MaxHp:    100,
-		Hp:       100,
+		MaxHp:    420,
+		Hp:       420,
 		Atk:      50,
 		Def:      50,
 	}
@@ -35,7 +35,7 @@ func init() {
 		IsFriend: false,
 		MaxHp:    100,
 		Hp:       100,
-		Atk:      50,
+		Atk:      30,
 		Def:      50,
 	}
 }

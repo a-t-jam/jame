@@ -4,6 +4,8 @@ package combat
 
 import (
 	"fmt"
+
+	"github.com/a-t-jam/jame/game/scene"
 )
 
 // Event is a change to the combat world
@@ -32,6 +34,11 @@ func (a Attack) run() {
 	target := &cState.actors[a.target]
 
 	target.Hp -= attacker.Atk
+
+	// FIXME: this hack
+	if a.target == 0 {
+		scene.PlayerIq = target.Hp
+	}
 }
 
 func (a Attack) anim() Anim {

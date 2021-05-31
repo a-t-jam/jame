@@ -14,6 +14,7 @@ import (
 
 var (
 	PlayerPos int
+	PlayerIq  int = 420
 )
 
 var (
@@ -62,13 +63,31 @@ type Scene struct {
 }
 
 func DrawPlayerPos(screen *ebiten.Image) {
-	// draw the distance
 	mes := fmt.Sprintf("%d steps away from the surface", 15-PlayerPos)
 	face := assets.PixelFont
-	x := 50
-	y := 50
+	x := 1280 / 2
+	y := 720 / 2
+
+	bounds := text.BoundString(face, mes)
+	x -= (bounds.Max.X - bounds.Min.X) / 2.0
+	y -= (bounds.Max.Y - bounds.Min.Y) / 2.0
 
 	text.Draw(screen, mes, face, x+4, y+4, color.Gray16{Y: 32})
+	text.Draw(screen, mes, face, x, y, color.White)
+
+}
+
+func DrawPlayerIq(screen *ebiten.Image) {
+	mes := fmt.Sprintf("IQ %d", PlayerIq)
+	face := assets.PixelFont
+	x := 1280 / 2
+	y := 620
+
+	bounds := text.BoundString(face, mes)
+	x -= (bounds.Max.X - bounds.Min.X) / 2.0
+	y -= (bounds.Max.Y - bounds.Min.Y) / 2.0
+
+	text.Draw(screen, mes, face, x+2, y+2, color.Gray16{Y: 32})
 	text.Draw(screen, mes, face, x, y, color.White)
 
 }
