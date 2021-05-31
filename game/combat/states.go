@@ -210,11 +210,3 @@ func updatePlayerInput(scene *scene.Scene) {
 		cState.guiState.Pop()
 	}
 }
-
-//func updateDialog(scene *scene.Scene) {
-//	println("hi from dialog")
-//	dl := dialog.Update(scene, dialog.Dialogs["player_attack"])
-//	if dl == nil {
-//		cState.guiState.Pop()
-//	}
-//}

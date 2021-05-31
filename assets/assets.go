@@ -17,26 +17,29 @@ import (
 	"github.com/hajimehoshi/ebiten/v2/audio/wav"
 )
 
-//go:embed winddorf
 //go:embed duck pipoya sprites se
 //go:embed bg fonts
 var Data embed.FS
 
 var (
-	Audio      = audio.NewContext(48000)
+	Audio = audio.NewContext(48000)
+)
+
+var (
+	PixelFont font.Face
+	DebugFont font.Face
+)
+
+var (
 	BattleDuck *ebiten.Image
 	TravelDuck *ebiten.Image
-	Bg         *ebiten.Image
 	Ocean1     *ebiten.Image
 	Ocean2     *ebiten.Image
-	PixelFont  font.Face
-	DebugFont  font.Face
 )
 
 func init() {
 	BattleDuck = LoadImg("duck/N-wait.png")
 	TravelDuck = LoadImg("duck/N-walk.png")
-	Bg = LoadImg("winddorf/kyoto.jpg")
 	Ocean1 = LoadImg("bg/ocean1.jpg")
 	Ocean2 = LoadImg("bg/ocean2.jpg")
 	PixelFont = LoadFont("fonts/8bitOperatorPlus8-Regular.ttf", 72, 24)

@@ -13,7 +13,7 @@ var (
 )
 
 func init() {
-	AttackTex = assets.LoadImg("pipoya/effects/008.png")
+	AttackTex = assets.LoadImg("pipoya/attack.png")
 	SwingSound = assets.LoadWav("se/match/swing.wav")
 }
 
