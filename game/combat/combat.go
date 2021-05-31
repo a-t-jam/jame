@@ -142,7 +142,7 @@ func Draw(scene *scene.Scene, screen *ebiten.Image) {
 		node.Draw(screen)
 	}
 
-	drawDebug(scene, screen)
+	// drawDebug(scene, screen)
 }
 
 func updateAnims(scene_ *scene.Scene, screen *ebiten.Image) {

@@ -93,7 +93,7 @@ func Draw(scene *scene.Scene, screen *ebiten.Image) {
 	}
 	dialog.Draw(scene, screen)
 
-	debugDraw(scene, screen)
+	// debugDraw(scene, screen)
 }
 
 func debugDraw(scene *scene.Scene, screen *ebiten.Image) {
