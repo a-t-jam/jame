@@ -10,6 +10,7 @@ import (
 	"github.com/hajimehoshi/ebiten/v2/text"
 
 	"github.com/a-t-jam/jame/assets"
+	"github.com/a-t-jam/jame/game/combat"
 	"github.com/a-t-jam/jame/game/dialog"
 	"github.com/a-t-jam/jame/game/scene"
 	"github.com/a-t-jam/jame/ui"
@@ -35,22 +36,35 @@ func updateAnim() {
 	}
 }
 
-func Update(scene *scene.Scene) error {
+func Update(scene_ *scene.Scene) error {
 	if isWalking {
 		updateAnim()
-	} else if playerPos == 5 {
-		print("need to handle change state to combat")
-	} else if inpututil.IsKeyJustReleased(ebiten.KeySpace) {
+		return nil
+	}
+
+	if inpututil.IsKeyJustPressed(ebiten.KeySpace) {
 		print("space pressed")
 		playerPos += 1
 		isWalking = true
-		return dialog.Update(scene, dialog.Dialogs["on_move_forward"])
-	} else if playerPos == 0 {
-		return dialog.Update(scene, dialog.Dialogs["moving_instruction"])
-	} else {
-		return dialog.Update(scene, dialog.Dialogs["on_move_forward"])
+		return dialog.Update(scene_, dialog.Dialogs["on_move_forward"])
 	}
-	return nil
+
+	if playerPos == 0 {
+		return dialog.Update(scene_, dialog.Dialogs["moving_instruction"])
+	}
+
+	if playerPos%5 == 0 {
+		// FIXME: hack to move forward AFTER the battle
+		playerPos += 1
+		// enter combat scene
+		scene_.State = scene.CombatState
+		// TODO: with corresponding enemy for this positiion
+		combat.Enter(scene_, combat.Enemy1)
+		return nil
+	}
+
+	return dialog.Update(scene_, dialog.Dialogs["on_move_forward"])
+
 }
 
 func Draw(scene *scene.Scene, screen *ebiten.Image) {
